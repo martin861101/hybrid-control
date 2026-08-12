@@ -2,12 +2,21 @@ import { ArrowDown, ArrowRight, ArrowUpRight, BrainCircuit, Check, CloudCog, Dat
 import { Link } from 'react-router-dom'
 import { motion } from 'motion/react'
 import heroImage from '../assets/industrial-hero.png'
+import controlInfrastructure from '../assets/legacy/control-infrastructure.jpeg'
+import electricalVerification from '../assets/legacy/electrical-verification.jpeg'
+import panelIntegration from '../assets/legacy/panel-integration.jpeg'
 import Reveal from '../components/ui/Reveal'
 import TelemetrySphere from '../components/ui/TelemetrySphere'
 import ProjectVisual from '../components/projects/ProjectVisual'
 import { capabilities, digitalSolutions, industries, partners, process, products, projects } from '../data/site'
 
 const Eyebrow = ({ children }: { children: React.ReactNode }) => <div className="eyebrow"><i />{children}</div>
+
+const fieldImages = [
+  { image: panelIntegration, label: 'Build', title: 'Panel integration', copy: 'Control assemblies prepared for dependable field operation.', alt: 'Engineers integrating electrical and automation equipment inside control panels' },
+  { image: electricalVerification, label: 'Verify', title: 'Electrical verification', copy: 'Measured, tested and supported across the operating lifecycle.', alt: 'Technician testing electrical control equipment with a multimeter' },
+  { image: controlInfrastructure, label: 'Operate', title: 'Control infrastructure', copy: 'Installed systems connecting power, control and plant operations.', alt: 'Installed industrial motor control and electrical infrastructure' },
+]
 
 export default function Home() {
   return (
@@ -61,6 +70,16 @@ export default function Home() {
               <span className="unit-index">{unit.id}</span><h3>{unit.title}</h3><p>{unit.short}</p>
               <ul>{unit.points.map((point) => <li key={point}><Check />{point}</li>)}</ul><span className="round-arrow"><ArrowUpRight /></span>
             </Link>
+          ))}
+        </div>
+        <Reveal className="field-image-heading"><span>FIELD / SYSTEM / OPERATION</span><p>Engineering is made real in the details: assembled, verified and ready to operate.</p></Reveal>
+        <div className="field-image-grid">
+          {fieldImages.map((item, index) => (
+            <Reveal className={`field-image-card field-image-${index + 1}`} key={item.title}>
+              <img src={item.image} alt={item.alt} loading="lazy" />
+              <div className="field-image-overlay" aria-hidden="true" />
+              <div className="field-image-copy"><span>0{index + 1} / {item.label}</span><h3>{item.title}</h3><p>{item.copy}</p></div>
+            </Reveal>
           ))}
         </div>
       </section>

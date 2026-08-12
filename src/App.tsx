@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import './App.css'
 import Header from './components/layout/Header'
+import LogoIntro from './components/layout/LogoIntro'
 import Footer from './components/layout/Footer'
 import Home from './pages/Home'
 import InnerPage from './pages/InnerPage'
@@ -23,6 +24,7 @@ function SiteRoutes() {
   }, [location.pathname, location.hash])
   return <>
     <Header />
+    <LogoIntro />
     <AnimatePresence mode="wait"><motion.div key={location.pathname} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: .25 }}>
       <Routes location={location}>
         <Route path="/" element={<Home />} />

@@ -4,6 +4,10 @@ A premium React redesign for Hybrid Control Corporation, an industrial automatio
 
 The shared site header, mobile navigation and footer use the supplied Hybrid Control brand artwork. `public/logo-transparent.png` is the optimized transparent navigation version, while `public/logo.png` remains the original source.
 
+Selected engineering imagery from the previous Hybrid Control website is retained in the homepage capability section. The panel-integration, electrical-verification and control-infrastructure images are locally optimized, presented with a translucent blue technical treatment and used as capability context rather than evidence for a named project. The browser favicon uses a compact solid-blue rendering of the current Hybrid Control mark.
+
+On each full site load, the animated Hybrid Control SVG plays at large scale in a centred, full-screen opening treatment. A staggered brand lockup reveals “Hybrid Control Corporation” and the positioning line “Engineering · Automation · Operational Intelligence” beneath the mark. When its 2.8-second sequence finishes, the text clears and the mark follows a responsive motion path into the live header logo position while the page is revealed. Client-side route changes do not replay the sequence, and visitors who prefer reduced motion go directly to the normal header logo.
+
 The fixed navigation uses a dark rough-glass surface rather than a transparent or opaque overlay. It remains translucent after scrolling so the underlying page is visibly softened through backdrop blur. The open desktop mega menu and mobile hamburger menu use the same translucent navy glass, saturation, mottled texture, fine edge highlights and restrained shadow separation.
 
 ## Run locally

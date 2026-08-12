@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useState } from 'react'
 import { motion } from 'motion/react'
 import animatedLogo from '../../../hybrid-control-logo-animated.svg?url'
+import { preloadGearModel, subscribeToGearProgress } from '../../lib/gearModel'
 
 type LogoRect = {
   left: number
@@ -35,6 +36,9 @@ export default function LogoIntro() {
   const [openingRect, setOpeningRect] = useState<LogoRect>(getOpeningRect)
   const [logoRect, setLogoRect] = useState<LogoRect>(openingRect)
   const [loaded, setLoaded] = useState(false)
+  const [minimumDurationComplete, setMinimumDurationComplete] = useState(false)
+  const [gearReady, setGearReady] = useState(false)
+  const [gearProgress, setGearProgress] = useState(0)
 
   useLayoutEffect(() => {
     if (phase === 'done') return
@@ -51,6 +55,8 @@ export default function LogoIntro() {
     return () => { document.body.style.overflow = previousOverflow }
   }, [phase])
 
+  useEffect(() => subscribeToGearProgress(setGearProgress), [])
+
   useEffect(() => {
     if (phase !== 'playing') return
 
@@ -64,9 +70,29 @@ export default function LogoIntro() {
   }, [phase])
 
   useEffect(() => {
+    if (phase === 'done') return
+
+    let cancelled = false
+    preloadGearModel()
+      .catch(() => undefined)
+      .then(() => {
+        if (!cancelled) setGearReady(true)
+      })
+
+    return () => { cancelled = true }
+  }, [phase])
+
+  useEffect(() => {
     if (!loaded || phase !== 'playing') return
 
-    const timer = window.setTimeout(() => {
+    const timer = window.setTimeout(() => setMinimumDurationComplete(true), SVG_DURATION_MS)
+    return () => window.clearTimeout(timer)
+  }, [loaded, phase])
+
+  useEffect(() => {
+    if (!minimumDurationComplete || !gearReady || phase !== 'playing') return
+
+    const frame = window.requestAnimationFrame(() => {
       const destination = document.querySelector<HTMLElement>('.site-header .logo-mark')
       if (!destination) {
         setPhase('done')
@@ -76,10 +102,10 @@ export default function LogoIntro() {
       const rect = destination.getBoundingClientRect()
       setLogoRect({ left: rect.left, top: rect.top, width: rect.width, height: rect.height })
       setPhase('docking')
-    }, SVG_DURATION_MS)
+    })
 
-    return () => window.clearTimeout(timer)
-  }, [loaded, phase])
+    return () => window.cancelAnimationFrame(frame)
+  }, [gearReady, minimumDurationComplete, phase])
 
   if (phase === 'done') return null
 
@@ -125,6 +151,9 @@ export default function LogoIntro() {
         >
           Engineering <i /> Automation <i /> Operational Intelligence
         </motion.span>
+        <div className="logo-intro-progress">
+          <i style={{ transform: `scaleX(${gearProgress})` }} />
+        </div>
       </div>
     </div>
   )

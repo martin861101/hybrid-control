@@ -7,6 +7,7 @@ import electricalVerification from '../assets/legacy/electrical-verification.jpe
 import panelIntegration from '../assets/legacy/panel-integration.jpeg'
 import Reveal from '../components/ui/Reveal'
 import TelemetrySphere from '../components/ui/TelemetrySphere'
+import ScrollPumpModel from '../components/ui/ScrollPumpModel'
 import ProjectVisual from '../components/projects/ProjectVisual'
 import { capabilities, digitalSolutions, industries, partners, process, products, projects } from '../data/site'
 
@@ -56,6 +57,7 @@ export default function Home() {
 
       <section className="intro section" id="intro">
         <Reveal className="section-head"><Eyebrow>Who we are</Eyebrow><h2>Technology is only valuable<br />when it solves the <em>right problem.</em></h2></Reveal>
+        <Reveal className="pump-model-wrap"><ScrollPumpModel /></Reveal>
         <div className="intro-grid">
           <Reveal className="intro-copy"><p>Hybrid Control Corporation was established in 2008 to design, integrate and manage electrical and automation systems. Today, our work connects real infrastructure to the intelligence needed to operate it better.</p><Link className="text-link dark" to="/company">Discover our company <ArrowUpRight /></Link></Reveal>
           <Reveal className="capability-sentence"><span>Engineering</span><i /><span>Integration</span><i /><span>Manufacturing</span><i /><span>Maintenance</span><i /><span>Project Management</span></Reveal>

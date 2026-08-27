@@ -71,7 +71,7 @@ const drawKeywords = (
     context.font = `600 ${fontSize}px Manrope, sans-serif`
     context.textAlign = 'center'
     context.textBaseline = 'middle'
-    context.fillStyle = `rgba(4, 54, 122, ${0.2 + fade * 0.72})`
+    context.fillStyle = `rgba(8, 124, 240, ${0.18 + fade * 0.62})`
     context.shadowColor = `rgba(22, 185, 255, ${flash * 0.82})`
     context.shadowBlur = 2 + flash * 16
     context.fillText(keyword.label, x, y)

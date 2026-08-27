@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowRight, ArrowUpRight, BrainCircuit, Check, CloudCog, Database, Signal, Waves } from 'lucide-react'
+import { ArrowDown, ArrowRight, ArrowUpRight, BadgeCheck, BrainCircuit, Check, CloudCog, Database, HardHat, Leaf, Signal, Waves } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { motion } from 'motion/react'
 import heroImage from '../assets/industrial-hero.png'
@@ -18,6 +18,33 @@ const fieldImages = [
   { image: electricalVerification, label: 'Verify', title: 'Electrical verification', copy: 'Measured, tested and supported across the operating lifecycle.', alt: 'Technician testing electrical control equipment with a multimeter' },
   { image: controlInfrastructure, label: 'Operate', title: 'Control infrastructure', copy: 'Installed systems connecting power, control and plant operations.', alt: 'Installed industrial motor control and electrical infrastructure' },
 ]
+
+const certificationStandards = [
+  { standard: 'ISO 9001', title: 'Quality Management System', copy: 'We maintain robust quality management processes to consistently deliver reliable, efficient and customer-focused services while driving continual improvement.', Icon: BadgeCheck },
+  { standard: 'ISO 45001', title: 'Occupational Health & Safety Management System', copy: 'We proactively manage occupational health and safety risks to protect our employees, contractors and stakeholders and maintain a safe, healthy working environment.', Icon: HardHat },
+  { standard: 'ISO 14001', title: 'Environmental Management System', copy: 'We minimise environmental impacts, meet applicable requirements and continually improve our environmental performance through responsible management.', Icon: Leaf },
+]
+
+const certificationCommitments = ['Quality and customer satisfaction', 'Occupational health and safety', 'Environmental responsibility', 'Compliance with applicable requirements', 'Risk-based management', 'Continual improvement']
+
+const accreditationAffiliations = [
+  { name: 'SACPCMP', href: 'https://sacpcmp.org.za/', image: '/accreditations/sacpcmp-transparent.png', alt: 'SACPCMP' },
+  { name: 'Saiosh', href: 'https://www.saiosh.co.za/', image: '/accreditations/saiosh-transparent.png', alt: 'Saiosh — South African Institute of Occupational Safety and Health' },
+  { name: 'SAIMC', href: 'https://saimc.co.za/', image: '/accreditations/saimc-transparent.png', alt: 'SAIMC — Inspiring Automation' },
+]
+
+const AccreditationLogoGroup = ({ duplicate = false }: { duplicate?: boolean }) => (
+  <div className="accreditation-logo-group" aria-hidden={duplicate || undefined}>
+    <div className="iso-standards-mark" aria-label={duplicate ? undefined : 'ISO 9001, ISO 45001 and ISO 14001 certified management systems'}>
+      <strong>ISO</strong><span>9001 · 45001 · 14001<small>Certified management systems</small></span>
+    </div>
+    {accreditationAffiliations.map(({ name, href, image, alt }) => (
+      <a href={href} target="_blank" rel="noreferrer" aria-label={`Visit the ${name} website`} tabIndex={duplicate ? -1 : undefined} key={name}>
+        <img src={image} alt={duplicate ? '' : alt} loading="lazy" />
+      </a>
+    ))}
+  </div>
+)
 
 export default function Home() {
   return (
@@ -139,6 +166,36 @@ export default function Home() {
         <Reveal><Eyebrow>Technology ecosystem</Eyebrow><h2>Partnerships built around<br /><em>proven industrial platforms.</em></h2></Reveal>
         <div className="partner-grid">{partners.map(partner => <div key={partner}>{partner}</div>)}</div>
         <div className="impact"><div className="impact-graphic"><span>01</span><span>Next<br />generation</span></div><Reveal><Eyebrow>Social responsibility</Eyebrow><h3>Engineering progress<br />beyond infrastructure.</h3><p>We work with clients to support youth development, graduate training and emerging businesses in the communities where we operate.</p><Link className="text-link dark" to="/company">Our company story <ArrowUpRight /></Link></Reveal></div>
+      </section>
+
+      <section className="certifications section" aria-labelledby="certifications-title">
+        <Reveal className="certifications-heading">
+          <div><Eyebrow>Certified management systems</Eyebrow><h2 id="certifications-title">Our certifications &<br /><em>commitment to excellence.</em></h2></div>
+          <div className="certifications-intro"><p>At Hybrid Control, we are committed to delivering excellence through internationally recognised management systems and the highest standards of quality, occupational health and safety, and environmental responsibility.</p><p>Our ISO certifications demonstrate our commitment to continual improvement, operational excellence and responsible business practices.</p></div>
+        </Reveal>
+
+        <div className="iso-certification-grid">
+          {certificationStandards.map(({ standard, title, copy, Icon }, index) => <Reveal className="iso-certification-card" key={standard}><div><span>0{index + 1}</span><Icon aria-hidden="true" /></div><strong>{standard}</strong><h3>{title}</h3><p>{copy}</p></Reveal>)}
+        </div>
+
+        <div className="certification-commitment">
+          <Reveal><Eyebrow>Our commitment</Eyebrow><h3>Standards reflected in<br />the way we work.</h3><p>Our certification to ISO 9001, ISO 45001 and ISO 14001 reflects our commitment to:</p></Reveal>
+          <ul>{certificationCommitments.map(item => <li key={item}><Check aria-hidden="true" />{item}</li>)}</ul>
+        </div>
+
+        <div className="accreditation-block">
+          <div className="accreditation-heading"><span>Accreditations & affiliations</span><p>Professional standards supporting quality, safety and engineering excellence.</p></div>
+          <div className="accreditation-marquee" role="region" aria-label="Accreditations and professional affiliations">
+            <motion.div
+              className="accreditation-logos"
+              animate={{ x: ['0%', '-50%'] }}
+              transition={{ duration: 18, ease: 'linear', repeat: Infinity }}
+            >
+              <AccreditationLogoGroup />
+              <AccreditationLogoGroup duplicate />
+            </motion.div>
+          </div>
+        </div>
       </section>
 
       <section className="contact-cta">

@@ -27,7 +27,7 @@ export default function ScrollPumpModel() {
     camera.position.set(0, .15, 4.8)
 
     const modelGroup = new THREE.Group()
-    modelGroup.rotation.set(-.18, -.55, -.1)
+    modelGroup.rotation.set(THREE.MathUtils.degToRad(-70), -.55, -.1)
     scene.add(modelGroup)
 
     scene.add(new THREE.HemisphereLight(0xc9efff, 0x18304a, 2.6))
@@ -41,7 +41,7 @@ export default function ScrollPumpModel() {
     let disposed = false
     let loadedScene: THREE.Object3D | undefined
     let animationMixer: THREE.AnimationMixer | undefined
-    let scrollTween: gsap.core.Tween | undefined
+    let scrollTimeline: gsap.core.Timeline | undefined
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     const resize = () => {
@@ -71,20 +71,25 @@ export default function ScrollPumpModel() {
         loadedScene.position.copy(center).multiplyScalar(-scale)
         modelGroup.add(loadedScene)
 
+        const animationActions: THREE.AnimationAction[] = []
         if (gltf.animations.length) {
           animationMixer = new THREE.AnimationMixer(loadedScene)
           gltf.animations.forEach((clip) => {
             const action = animationMixer?.clipAction(clip)
-            action?.setLoop(THREE.LoopRepeat, Infinity)
-            action?.play()
+            if (!action) return
+            action.setLoop(THREE.LoopOnce, 1)
+            action.clampWhenFinished = true
+            action.play()
+            action.paused = true
+            animationActions.push(action)
           })
+          animationMixer.update(0)
         }
         stage.classList.add('is-loaded')
 
         if (!reduceMotion) {
-          scrollTween = gsap.to(modelGroup.rotation, {
-            y: modelGroup.rotation.y + Math.PI * 2.35,
-            ease: 'none',
+          const animationState = { progress: 0 }
+          scrollTimeline = gsap.timeline({
             scrollTrigger: {
               trigger: stage,
               start: 'top 88%',
@@ -93,22 +98,32 @@ export default function ScrollPumpModel() {
               invalidateOnRefresh: true,
             },
           })
+          scrollTimeline.to(modelGroup.rotation, {
+            y: modelGroup.rotation.y + Math.PI * 2.35,
+            ease: 'none',
+          }, 0)
+          scrollTimeline.to(animationState, {
+            progress: 1,
+            ease: 'none',
+            onUpdate: () => {
+              animationActions.forEach((action) => {
+                action.time = action.getClip().duration * animationState.progress
+              })
+              animationMixer?.update(0)
+            },
+          }, 0)
         }
       })
       .catch(() => {
         if (!disposed) stage.classList.add('has-error')
       })
 
-    const clock = new THREE.Clock()
-    renderer.setAnimationLoop(() => {
-      animationMixer?.update(Math.min(clock.getDelta(), .1))
-      renderer.render(scene, camera)
-    })
+    renderer.setAnimationLoop(() => renderer.render(scene, camera))
 
     return () => {
       disposed = true
-      scrollTween?.scrollTrigger?.kill()
-      scrollTween?.kill()
+      scrollTimeline?.scrollTrigger?.kill()
+      scrollTimeline?.kill()
       observer.disconnect()
       renderer.setAnimationLoop(null)
       if (loadedScene) animationMixer?.uncacheRoot(loadedScene)

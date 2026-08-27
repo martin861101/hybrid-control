@@ -70,6 +70,16 @@ The experience uses CSS and SVG animation rather than a heavy 3D dependency. On 
 
 The site-wide palette follows the supplied Hybrid Control logo: midnight navy environments, saturated royal-blue depth, electric azure signals, icy-blue highlights and cool silver-white content surfaces. Shared navigation, homepage sections, inner pages, project details, calls to action and the footer all use this same color system.
 
+## Certifications and professional affiliations
+
+The homepage includes a dedicated quality, safety and environmental-management section covering ISO 9001, ISO 45001 and ISO 14001, followed by Hybrid Control's stated commitments to customer satisfaction, occupational health and safety, environmental responsibility, compliance, risk-based management and continual improvement.
+
+Professional-body artwork is stored locally in `public/accreditations` to avoid third-party hotlinking. SACPCMP and SAIMC artwork comes from their official websites; the Saiosh reproduction follows its published identity. Each mark links to the relevant organisation and includes descriptive alternative text. The ISO standards are presented as a site-native typographic standards badge rather than copying the restricted ISO corporate logo.
+
+The accreditation marks run in a seamless, fixed-height right-to-left marquee driven by the site's runtime animation library, with no cards or enclosing logo containers. Each duplicated group is forced into one non-wrapping row at every breakpoint. Transparent logo artwork removes the original white raster backgrounds, while grayscale, brightness and blur filters create the translucent sandblasted-glass appearance.
+
+Transparent PNG derivatives preserve clean logo edges without reintroducing white source backgrounds.
+
 ## Accessibility and performance
 
 The site uses semantic page structure, keyboard-operable navigation, visible focus states, responsive type and layouts, high-contrast colors, and reduced-motion overrides. The generated hero has explicit alternative text and below-fold content avoids additional raster image requests.
@@ -78,4 +88,4 @@ The homepage hero grid includes ambient electrical pulses that travel along its 
 
 The Telemetry & system integration section uses a dependency-free canvas sphere built from Fibonacci-distributed points. Its dots transition from deep logo navy at the rear to royal blue and electric azure at the front, with bright blue depth glows. Business keywords move through the sphere on staggered paths, briefly flash in azure at its centre and alternate between its rear and front depth planes. The sphere remains panel-free, responds subtly to pointer movement, scales with its container and renders a static frame when reduced motion is requested.
 
-The homepage “Who We Are” section includes the supplied `sci_fi_gear_animated.glb` as an animated Three.js model. The frameless viewer automatically centres and scales the asset over a transparent background, continuously loops all embedded animation clips, and uses GSAP ScrollTrigger to scrub an independent smooth rotation while preserving a slight technical viewing angle. The large GLB is preloaded from the initial HTML, then downloaded and parsed through a shared promise. The animated brand intro acts as its loading screen, shows a thin live model-loading bar, and only docks after both its minimum sequence and the parsed model are ready; the viewer reuses that cached scene data rather than requesting the asset again. It is responsive across desktop and mobile; reduced-motion preferences disable the scroll-driven spin while retaining the model’s authored animation.
+The homepage “Who We Are” section includes the supplied `gearanimated.glb` as an animated Three.js model. The frameless viewer automatically centres and scales the asset over a transparent background, with a 70-degree X-axis tilt that provides a strong top-down view. GSAP ScrollTrigger simultaneously scrubs every embedded animation clip once from start to finish and rotates the complete model as the visitor scrolls; neither motion loops or advances autonomously. The asset is preloaded without adding a visible startup loading element or delaying the existing brand intro. It is responsive across desktop and mobile, while reduced-motion preferences retain a static model.

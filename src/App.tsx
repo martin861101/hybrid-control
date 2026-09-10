@@ -30,7 +30,7 @@ function SiteRoutes() {
     <Seo title={seo.title} description={seo.description} canonical={seo.canonical} />
     <a href="#main-content" className="skip-link">Skip to main content</a>
     <Header />
-    <LogoIntro />
+    {location.pathname === '/' && <LogoIntro />}
     <AnimatePresence mode="wait"><motion.div key={location.pathname} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: .25 }}>
       <Suspense fallback={<div className="route-loading" aria-hidden="true" />}>
         <Routes location={location}>

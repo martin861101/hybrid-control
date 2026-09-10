@@ -106,26 +106,91 @@ export default function InnerPage() {
 
   // capability detail fallback
   const detail = cap ? capabilityDetail[cap.slug] : undefined
+  const capImage = cap ? capabilityImages[cap.slug] : undefined
+
   return <main className="inner-page" id="main-content">
-    <section className="page-hero"><div className="page-grid"/><Reveal><div className="eyebrow"><i />{page.eyebrow}</div><h1>{page.title.split('\n').map((line, i, all) => <span key={line}>{line}{i === all.length - 1 && <em>.</em>}</span>)}</h1><p>{page.intro}</p></Reveal><div className="page-index">HCC / {root.toUpperCase()} / 2026</div></section>
-
-    {cap && detail && <section className="capability-detail section">
-      <Reveal className="capability-detail-grid">
-        <div>
-          <div className="eyebrow"><i />What it is</div>
-          <h2>{cap.title}</h2>
-          <p className="lead">{cap.short}</p>
-        </div>
-        <div>
-          <h3>What problem does it solve?</h3><p>{detail.problem}</p>
-          <h3>What does Hybrid Control provide?</h3><ul>{detail.provides.map(p => <li key={p}>{p}</li>)}</ul>
-          <h3>Where is it applicable?</h3><p>{detail.applications}</p>
-          <h3>How does it connect to the lifecycle?</h3><p>{detail.lifecycle}</p>
-        </div>
+    <section className="page-hero">
+      <div className="page-grid"/>
+      <Reveal>
+        <div className="eyebrow"><i />{cap ? `Capability · ${cap.title}` : page.eyebrow}</div>
+        <h1>{page.title.split('\n').map((line, i, all) => <span key={line}>{line}{i === all.length - 1 && <em>.</em>}</span>)}</h1>
+        <p>{page.intro}</p>
       </Reveal>
-    </section>}
+      <div className="page-index">HCC / {root.toUpperCase()} / 2026</div>
+    </section>
 
-    <section className="inner-content section"><Reveal><div className="eyebrow"><i />Related capability</div><h2>Explore {cap?.title.toLowerCase() ?? root}.</h2></Reveal><div className="inner-list">{(cap ? cap.points : []).map((item, i) => <div key={item}><span>0{i + 1}</span><div><h3>{item}</h3><p>Delivered as part of a coordinated, operationally focused engineering system.</p></div></div>)}</div></section>
+    {cap && detail && (
+      <>
+        <section className="capability-intro section">
+          <Reveal className="capability-intro-grid">
+            <div>
+              <div className="eyebrow"><i />Operational context</div>
+              <h2>{cap.title} in practice.</h2>
+              <p className="lead">{cap.short}</p>
+            </div>
+            <div>
+              <h3>The operational challenge</h3>
+              <p>{detail.problem}</p>
+              <h3>Target environments</h3>
+              <p>{detail.applications}</p>
+            </div>
+          </Reveal>
+        </section>
+
+        {capImage && (
+          <section className="capability-visual-stage section">
+            <Reveal className="capability-stage-frame">
+              <img
+                src={capImage.src}
+                alt={capImage.alt}
+                loading="eager"
+                decoding="async"
+              />
+            </Reveal>
+          </section>
+        )}
+
+        <section className="capability-content section">
+          <Reveal className="capability-content-grid">
+            <div>
+              <div className="eyebrow"><i />Scope & deliverables</div>
+              <h2>What Hybrid Control provides.</h2>
+              <ul className="capability-deliverables">
+                {detail.provides.map((item, i) => (
+                  <li key={item}>
+                    <span className="deliverable-index">0{i + 1}</span>
+                    <p>{item}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <div className="eyebrow"><i />Integrated workstreams</div>
+              <h3>Delivered disciplines</h3>
+              <div className="capability-disciplines">
+                {cap.points.map((pt, i) => (
+                  <div key={pt} className="discipline-item">
+                    <span>{String(i + 1).padStart(2, '0')}</span>
+                    <strong>{pt}</strong>
+                  </div>
+                ))}
+              </div>
+              <div className="capability-lifecycle-box">
+                <h4>Lifecycle continuity</h4>
+                <p>{detail.lifecycle}</p>
+              </div>
+            </div>
+          </Reveal>
+        </section>
+      </>
+    )}
+
+    {!cap && (
+      <section className="inner-content section">
+        <Reveal><div className="eyebrow"><i />Related capability</div><h2>Explore {root}.</h2></Reveal>
+      </section>
+    )}
+
     {capability === 'system-integration' && <DigitalCapability />}
     <section className="inner-cta"><h2>Let’s engineer the next move.</h2><Link className="button button-light" to="/contact">Talk to an engineer <ArrowRight /></Link></section>
   </main>
@@ -288,9 +353,21 @@ function InsightsPage({ page }: { page: { eyebrow: string; title: string; intro:
 function ProjectDetail({ project, index }: { project: (typeof projects)[number]; index: number }) {
   const diagram = projectDiagramImages[project.slug]
   return <main className="project-detail-page" id="main-content">
-    <section className="project-detail-hero"><div className="page-grid"/><Reveal><div className="eyebrow"><i />Project {project.id} · {project.type}</div><h1>{project.title}<em>.</em></h1><div className="project-detail-meta"><span>{project.client}</span><span>{project.location}</span><span>{project.signal}</span></div></Reveal></section>
-    <section className="project-detail-story section">
-      {diagram ? (
+    <section className="project-detail-hero">
+      <div className="page-grid"/>
+      <Reveal>
+        <div className="eyebrow"><i />Project {project.id} · {project.type}</div>
+        <h1>{project.title}<em>.</em></h1>
+        <div className="project-detail-meta">
+          <span>{project.client}</span>
+          <span>{project.location}</span>
+          <span>{project.signal}</span>
+        </div>
+      </Reveal>
+    </section>
+
+    {diagram ? (
+      <section className="project-diagram-section section">
         <Reveal>
           <div className="project-diagram-stage">
             <VisualDiagramFrame 
@@ -299,15 +376,43 @@ function ProjectDetail({ project, index }: { project: (typeof projects)[number];
               imageSrc={diagram.src} 
               imageAlt={diagram.alt} 
               aspectRatio={diagram.aspect} 
-              footer={<ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>{project.delivery.map(item => <li key={item}>{item}</li>)}</ul>} 
+              footer={
+                <div className="project-delivery-strip">
+                  <span>Delivered capability</span>
+                  <div className="delivery-pills">
+                    {project.delivery.map(item => <span key={item}>{item}</span>)}
+                  </div>
+                </div>
+              }
             />
           </div>
         </Reveal>
-      ) : (
+      </section>
+    ) : (
+      <section className="project-diagram-section section">
         <ProjectVisual project={project} index={index}/>
-      )}
-      <Reveal><div className="eyebrow"><i />Operational requirement</div><h2>The challenge.</h2><p className="detail-lead">{project.challenge}</p><p>{project.copy}</p><h3>Delivered capability</h3><ul>{project.delivery.map(item => <li key={item}>{item}</li>)}</ul><Link className="button button-dark" to="/experience">All core projects <ArrowRight/></Link></Reveal>
+      </section>
+    )}
+
+    <section className="project-detail-story section">
+      <Reveal className="project-story-grid">
+        <div>
+          <div className="eyebrow"><i />Operational requirement</div>
+          <h2>The challenge.</h2>
+          <p className="detail-lead">{project.challenge}</p>
+        </div>
+        <div>
+          <div className="eyebrow"><i />System implementation</div>
+          <h3>Delivered engineering</h3>
+          <p>{project.copy}</p>
+          <ul className="project-delivery-checklist">
+            {project.delivery.map(item => <li key={item}>{item}</li>)}
+          </ul>
+          <Link className="button button-dark" to="/experience">All core projects <ArrowRight/></Link>
+        </div>
+      </Reveal>
     </section>
+
     <section className="inner-cta"><h2>Build the next operating system.</h2><Link className="button button-light" to="/contact">Discuss a project <ArrowRight /></Link></section>
   </main>
 }

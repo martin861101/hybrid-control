@@ -15,8 +15,8 @@ const SVG_DURATION_MS = 2800
 
 function getOpeningRect(): LogoRect {
   const viewportPadding = window.innerWidth < 640 ? 24 : 56
-  const maxWidth = Math.min(window.innerWidth - viewportPadding * 2, 760)
-  const maxHeight = window.innerHeight * .68
+  const maxWidth = Math.min(window.innerWidth - viewportPadding * 2, 420)
+  const maxHeight = window.innerHeight * .42
   const width = Math.min(maxWidth, maxHeight * 1.5)
   const height = width / 1.5
 

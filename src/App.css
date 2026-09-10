@@ -275,8 +275,7 @@ h2 em, h1 em { color: var(--cyan); font-style: normal; font-weight: 400; }
 }
 
 .page-hero h1 {
-  display: flex;
-  flex-direction: column;
+  display: block;
   margin: 25px 0 20px;
   font-size: clamp(48px, 6vw, 92px);
   line-height: .95;
@@ -284,6 +283,8 @@ h2 em, h1 em { color: var(--cyan); font-style: normal; font-weight: 400; }
   font-weight: 500;
   color: white;
 }
+
+.page-hero h1 > span { display: block; }
 
 .page-hero > div > p {
   max-width: 620px;
@@ -683,7 +684,7 @@ h2 em, h1 em { color: var(--cyan); font-style: normal; font-weight: 400; }
 .flagship-chapters { background: #06171f; }
 .flagship-chapter { position: relative; display: grid; grid-template-columns: .73fr 1.27fr; min-height: 950px; scroll-margin-top: 75px; border-top: 1px solid #ffffff18; overflow: hidden; }
 .flagship-chapter:nth-child(even) { grid-template-columns: 1.27fr .73fr; background: #081c25; }.flagship-chapter:nth-child(even) .flagship-copy { order: 2; }.flagship-chapter:nth-child(even) .flagship-system { order: 1; }
-.flagship-copy { display: flex; align-items: center; padding: 130px 5.5vw; border-right: 1px solid #ffffff16; }.flagship-copy>div { width: 100%; }
+.flagship-copy { display: flex; align-items: center; padding: 80px 5.5vw; border-right: 1px solid #ffffff16; }.flagship-copy>div { width: 100%; }
 .chapter-index { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; padding-bottom: 18px; border-bottom: 1px solid #ffffff20; color: #718990; font: 500 8px 'Manrope'; letter-spacing: .12em; text-transform: uppercase; }.chapter-index span:first-child { color: var(--cyan); }
 .flagship-copy h2 { display: flex; flex-direction: column; margin: 70px 0 35px; color: white; font: 500 clamp(48px,5.5vw,83px)/.91 'Manrope'; letter-spacing: -.06em; text-transform: uppercase; }.flagship-copy h2 small { margin-bottom: 9px; color: var(--cyan); font-size: .34em; letter-spacing: .05em; }
 .flagship-copy .chapter-headline { max-width: 620px; color: #d2dddf; font: 400 clamp(21px,2vw,30px)/1.25 'Manrope'; letter-spacing: -.03em; }.flagship-copy p:not(.chapter-headline) { max-width: 620px; color: #82969d; font-size: 13px; line-height: 1.75; }
@@ -825,9 +826,9 @@ h2 em, h1 em { color: var(--cyan); font-style: normal; font-weight: 400; }
 .capability-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:70px}
 .capability-card{display:flex;flex-direction:column;min-height:360px;padding:32px;border:1px solid var(--border-subtle);transition:border-color .3s ease,transform .3s ease,box-shadow .3s ease;background:var(--card-surface);color:white;overflow:hidden;}
 .capability-card:hover{border-color:rgba(110,216,255,.45);transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.4)}
-.capability-card-image{width:calc(100% + 64px);height:148px;object-fit:cover;margin:-32px -32px 28px;filter:saturate(.85) contrast(1.06);transition:transform .5s ease,filter .5s ease;}
+.capability-card-image{width:calc(100% + 64px);max-width:none;height:220px;object-fit:cover;margin:-32px -32px 24px;filter:saturate(.85) contrast(1.06);transition:transform .5s ease,filter .5s ease;}
 .capability-card:hover .capability-card-image{transform:scale(1.02);filter:saturate(.95) contrast(1.08)}
-.capability-card>span:first-child{color:var(--cyan);font:600 9px 'Manrope'}
+.capability-card>span{color:var(--cyan);font:600 9px 'Manrope'}
 .capability-card h3{margin:22px 0 12px;font-size:24px;color:white;}
 .capability-card p{color:var(--text-body);font-size:13px;line-height:1.6}
 .capability-card ul{margin:18px 0 auto;padding:0;list-style:none}
@@ -841,7 +842,7 @@ h2 em, h1 em { color: var(--cyan); font-style: normal; font-weight: 400; }
 .industry-detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:40px}
 .industry-detail-card{padding:32px;border:1px solid var(--border-subtle);background:var(--card-surface);color:white;overflow:hidden;transition:border-color .3s ease,transform .3s ease,box-shadow .3s ease;}
 .industry-detail-card:hover{border-color:rgba(110,216,255,.35);transform:translateY(-2px);box-shadow:0 14px 36px rgba(0,0,0,.35)}
-.industry-detail-image{display:block;width:calc(100% + 64px);height:156px;object-fit:cover;margin:-32px -32px 28px;filter:saturate(.85) contrast(1.06);transition:transform .5s ease;}
+.industry-detail-image{display:block;width:calc(100% + 64px);max-width:none;height:220px;object-fit:cover;margin:-32px -32px 28px;filter:saturate(.85) contrast(1.06);transition:transform .5s ease;}
 .industry-detail-card:hover .industry-detail-image{transform:scale(1.02)}
 .industry-detail-head{display:flex;align-items:center;gap:12px;margin-bottom:18px}
 .industry-detail-head span{color:var(--cyan);font:700 10px 'Manrope'}
@@ -956,6 +957,39 @@ h2 em, h1 em { color: var(--cyan); font-style: normal; font-weight: 400; }
 
 @media (max-width: 800px) {
   .hero-shade { background: linear-gradient(90deg,#020817ed,#03112799),linear-gradient(0deg,#020817f0,transparent 60%); }
+}
+
+/* Final composition: keep imagery and its supporting copy in one view. */
+.accreditation-marquee { width: 100%; margin-left: 0; }
+.evidence-stage > *, .evidence-feature > *, .evidence-side > a > div { min-width: 0; }
+@media (min-width: 1101px) {
+  .intro { display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px 6vw; padding-block: 96px; align-items: center; }
+  .intro .section-head { grid-column: 1 / -1; width: 100%; margin: 0; }
+  .intro .section-head h2 { font-size: clamp(48px, 5vw, 74px); }
+  .intro .pump-model-wrap { margin: 0; min-width: 0; }
+  .intro-grid { display: flex; flex-direction: column; gap: 32px; margin: 0; }
+  .intro-copy p { font-size: 16px; margin-bottom: 24px; }
+  .capability-sentence span { font-size: 28px; }
+  .capability-sentence i { height: 12px; margin-block: 6px; }
+  .business { padding-top: 96px; }
+  .capability-cards { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .capability-card { grid-column: span 2; }
+  .capability-card:nth-last-child(-n+2) { grid-column: span 3; }
+}
+
+@media (max-width: 800px) {
+  .intro { padding-top: 64px; }
+  .intro-grid { gap: 32px; margin-top: 40px; }
+  .capability-sentence span { font-size: 28px; }
+  .capability-sentence i { height: 16px; }
+  .mobile-menu { overflow-y: auto; }
+  .mobile-menu nav { margin-top: 32px; }
+  .mobile-contact { position: static; margin-top: 32px; padding-bottom: 24px; }
+}
+
+@media (max-width: 520px) {
+  .hero-content h1 { font-size: clamp(38px, 11.5vw, 48px); }
+  .page-hero h1 { font-size: clamp(38px, 11.5vw, 49px); }
 }
 
 /* Ecosystem visual */

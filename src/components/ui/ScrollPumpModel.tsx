@@ -133,7 +133,7 @@ export default function ScrollPumpModel() {
 
   return (
     <div className="pump-model-stage" ref={stageRef}>
-      <canvas ref={canvasRef} aria-label="Animated three-dimensional sci-fi gear model" />
+      <canvas ref={canvasRef} aria-label="Animated three-dimensional gear model illustrating precision engineering" role="img" />
     </div>
   )
 }

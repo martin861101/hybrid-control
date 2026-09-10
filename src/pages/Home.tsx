@@ -48,9 +48,9 @@ const AccreditationLogoGroup = ({ duplicate = false }: { duplicate?: boolean }) 
 
 export default function Home() {
   return (
-    <main>
+    <main id="main-content">
       <section className="hero-section">
-        <img className="hero-image" src={heroImage} alt="Industrial water infrastructure at blue hour" />
+        <img className="hero-image" src={heroImage} alt="Industrial water infrastructure at blue hour" fetchPriority="high" decoding="async" />
         <div className="hero-shade" />
         <div className="hero-grid" aria-hidden="true">
           <div className="laser-grid">

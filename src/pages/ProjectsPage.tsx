@@ -6,14 +6,15 @@ import CapabilityTopology from '../components/projects/CapabilityTopology'
 import DeliveredEngineering from '../components/projects/DeliveredEngineering'
 import { engineeringFlagships, projects } from '../data/site'
 import infrastructureImage from '../assets/industrial-hero1.png'
+import ErwatNetworkReveal from '../components/projects/ErwatNetworkReveal'
 
 const architecture = ['FIELD', 'MEASUREMENT', 'COMMUNICATION', 'CONTROL', 'AUTOMATION', 'ANALYTICS', 'OPERATIONS']
 const capabilityStrip = ['Process automation', 'PLC engineering', 'SCADA', 'AS-i', 'Industrial networks', 'Instrumentation', 'Electrical engineering', 'Telemetry', 'Analytics', 'Reporting', 'Control systems', 'System integration']
 
 export default function ProjectsPage() {
-  return <main className="engineering-page">
+  return <main className="engineering-page" id="main-content">
     <section className="eim-hero">
-      <img src={infrastructureImage} alt="Editorial visual of water treatment infrastructure at dusk" />
+      <img src={infrastructureImage} alt="Editorial visual of water treatment infrastructure at dusk" loading="eager" decoding="async" />
       <div className="eim-hero-shade"/><div className="eim-grid"/>
       <div className="eim-signal-rail" aria-hidden="true"><i/></div>
       <Reveal className="eim-hero-content">
@@ -68,6 +69,28 @@ export default function ProjectsPage() {
         <div><p>A technical ledger of work spanning software, measurement, energy, process and remote communications.</p><span>SCROLL / SYSTEM VISUAL UPDATES</span></div>
       </Reveal>
       <DeliveredEngineering/>
+    </section>
+
+    <section className="erwat-network-section" id="erwat-network" aria-labelledby="erwat-network-title">
+      <Reveal className="erwat-network-heading">
+        <div>
+          <div className="eim-act"><span>FIELD EVIDENCE / ERWAT</span><i />REMOTE OPERATIONS</div>
+          <h2 id="erwat-network-title">ERWAT HQ network<br /><em>in motion.</em></h2>
+        </div>
+        <div>
+          <p>Remote pump stations brought under central monitoring and control — Adroit SCADA and ELPRO RTUs extending visibility from the field to the operations room at ERWAT headquarters, Kempton Park.</p>
+          <span>SCROLL TO SCRUB / Muted autoplay</span>
+        </div>
+      </Reveal>
+      <Reveal>
+        <ErwatNetworkReveal />
+        <div className="erwat-network-meta" aria-label="Delivered capability for ERWAT">
+          <div><span>01 / Supervision</span><strong>Adroit SCADA</strong></div>
+          <div><span>02 / Telemetry</span><strong>ELPRO RTUs</strong></div>
+          <div><span>03 / Lifecycle</span><strong>Operations support</strong></div>
+        </div>
+        <p className="erwat-network-caption">Muted network footage from <em>public/vid/output (1).mp4</em> — remapped to a Three.js VideoTexture and scrubbed with GSAP ScrollTrigger (mirrors the home-page <em>ScrollPumpModel</em> at <code>src/components/ui/ScrollPumpModel.tsx:91</code>). Scroll to drive playback; hover to pause wireframe. <Link to="/experience/erwat-network-control">View ERWAT project record <ArrowUpRight style={{ width: 12, display: 'inline', verticalAlign: 'middle' }} /></Link></p>
+      </Reveal>
     </section>
 
     <section className="project-archive section">

@@ -38,11 +38,14 @@ export const capabilities = [
 
 export const industries = [
   { name: 'Water & Wastewater', code: 'H₂O', copy: 'Monitoring, control and automation across treatment and distribution networks.' },
-  { name: 'Energy', code: 'MW', copy: 'Connected systems that make energy performance visible and actionable.' },
+  { name: 'Power Generation', code: 'MW', copy: 'Electrical integration, protection and control for generation and distribution infrastructure.' },
+  { name: 'Renewable Energy', code: 'RE', copy: 'Integration and visibility for renewable and hybrid energy systems within broader operational architecture.' },
+  { name: 'Energy', code: 'EN', copy: 'Connected systems that make energy performance visible and actionable across generation and use.' },
+  { name: 'Chemical', code: 'CH', copy: 'Measurement and control for demanding chemical processing environments.' },
   { name: 'Oil & Gas', code: 'O&G', copy: 'Engineering support across design, build, operate and maintain phases.' },
   { name: 'Mining', code: 'MIN', copy: 'Automation and process insight for demanding mining and metals environments.' },
   { name: 'Manufacturing', code: 'MFG', copy: 'Integrated control from design through commissioning and maintenance.' },
-  { name: 'FMCG & Packaging', code: 'PKG', copy: 'Reliable production control for fast-moving industrial operations.' },
+  { name: 'FMCG & Packaging', code: 'PKG', copy: 'Reliable production control for fast-moving industrial operations, including end-of-line packaging.' },
 ]
 
 export const projects = [
@@ -229,7 +232,7 @@ export const digitalSolutions = [
   },
 ]
 
-export const partners = ['Rockwell Automation', 'ELPRO Technologies', 'Adroit Technologies', 'Allen-Bradley', 'Honeywell', 'MOXA']
+export const partners = ['Rockwell Automation', 'ELPRO Technologies', 'Adroit Technologies']
 
 export const process = [
   ['Discover', 'Understand the operational requirement.'],

@@ -1,800 +1,448 @@
 # HYBRID CONTROL — PHASE 3
-## Motion, Interaction & Final Visual Polish
+## Focused Motion & Final Visual Polish
 
-You are working inside the existing Hybrid Control website repository.
+Phase 1 and Phase 2 are COMPLETE and APPROVED.
 
-Phase 1 established:
-- the dark tonal visual system
-- image-led section rhythm
-- production/reference asset mapping
-- removal of disruptive light-theme sections
+DO NOT perform another repository-wide architecture analysis.
+DO NOT remap the diagrams.
+DO NOT redesign the website.
+DO NOT rewrite content.
 
-Phase 2 established:
-- the new image-led diagram architecture
-- production diagram imagery
-- HTML-owned editorial information
-- responsive diagram behaviour
-- the approved implementation pattern
+Work from the implementation that exists now.
 
-THIS IS PHASE 3.
+The goal is simply:
 
-Your job is to make the completed site feel alive, premium and engineered through restrained motion, interaction and visual polish.
-
-This is NOT another redesign.
-
-Do not substantially change layouts established in Phase 1 or Phase 2.
-
-Do not replace the new image-led diagrams.
-
-Do not reintroduce complex React/SVG technical diagrams.
-
-Do not rewrite copy.
-
-Do not modify routes, business logic, forms, APIs or navigation architecture.
+MAKE THE CURRENT IMAGE-LED DARK WEBSITE FEEL POLISHED, COHESIVE AND ALIVE.
 
 ---
 
-# 1. INSPECT BEFORE EDITING
+# 1. PROTECTED FEATURE — CRITICAL
 
-Inspect the current repository and understand the implementation produced by Phase 1 and Phase 2.
+The site contains an intentional GSAP ScrollTrigger experience using a GLB 3D model.
 
-Locate:
+This feature MUST remain.
 
-- global animation system
-- Motion / Framer Motion / GSAP usage if present
-- intersection/viewport utilities
-- image-led diagram components
-- production diagram assets
-- cinematic industrial imagery
-- section components
-- navigation
-- hero
-- CTA sections
-- Experience/project sections
-- reduced-motion handling
-- responsive behaviour
-- existing CSS transitions
-- any old animations still present
+Relevant code includes at least:
 
-Do not assume paths.
+- ScrollPumpModel.tsx
 
-Do not immediately start adding animation.
+and Three.js may also be required by:
 
-First identify what already moves and what should remain static.
+- ErwatNetworkReveal.tsx
 
----
+DO NOT:
 
-# 2. CORE MOTION PHILOSOPHY
+- remove GSAP
+- remove ScrollTrigger
+- remove Three.js
+- remove GLB assets
+- replace the 3D experience with an image
+- simplify it
+- refactor it
+- change its scroll sequence
+- classify it as obsolete animation
+- change pinning/timing without explicit need
 
-Hybrid Control is an industrial engineering and automation company.
+This is a signature cinematic feature.
 
-Motion should communicate:
+VERIFY THAT IT STILL WORKS after your changes.
 
-- systems becoming active
-- information travelling
-- infrastructure connecting
-- engineering precision
-- operational awareness
-- controlled energy
-
-It should NOT communicate:
-
-- gaming
-- cyberpunk
-- AI hype
-- crypto
-- futuristic fantasy
-- generic tech startup behaviour
-
-The desired feeling is:
-
-QUIETLY ALIVE.
-
-Not:
-
-CONSTANTLY ANIMATED.
+If uncertain whether code belongs to this feature, leave it alone.
 
 ---
 
-# 3. MOTION HIERARCHY
+# 2. APPROVED DIAGRAM ARCHITECTURE
 
-Use three levels of motion.
+Do not change this:
 
-## LEVEL 1 — Editorial motion
+IMAGE
+= physical world + baked-in diagram information
 
-Used throughout the site.
+HTML/CSS
+= headings + numbers + editorial copy + process information
 
-Examples:
+ANIMATION
+= subtle behaviour only
 
-- heading reveal
-- copy reveal
-- image entrance
-- process item stagger
-- subtle divider expansion
+TelemetryNetworkDiagram.tsx / VisualDiagramFrame.tsx establish the approved
+image-led architecture.
 
-These should be extremely restrained.
+Do not rebuild any diagram using SVG.
 
-Typical values:
+Do not add technical hotspots.
 
-translateY:
-10–24px
-
-opacity:
-0 → 1
-
-duration:
-approximately 500–800ms
-
-stagger:
-approximately 50–100ms
-
-Avoid large movement.
+Do not duplicate information baked into images.
 
 ---
 
-## LEVEL 2 — Industrial/environmental motion
+# 3. EXISTING LEGACY VISUALS — LEAVE THEM ALONE
 
-Used selectively on major visual sections.
+The following intentionally remain pending future artwork:
 
-Examples:
+- Cygnus Substation Architecture
+- Field-to-Cloud Data Pipeline
+- Capability Topology
+- Delivered Engineering Workstreams
 
-- extremely slow image scale
-- subtle parallax
-- slight foreground/background separation
-- gradient illumination shifting gently
+DO NOT redesign these.
 
-Example:
+DO NOT replace them.
 
-scale:
-1 → 1.015
+DO NOT attempt to "finish Phase 2".
 
-NOT:
-
-1 → 1.1
-
-The user should almost not consciously notice this movement.
+They are explicitly outside this task.
 
 ---
 
-## LEVEL 3 — System behaviour
+# 4. MOTION SYSTEM
 
-Used only where it communicates meaning.
+Use the animation libraries ALREADY PRESENT.
 
-Examples:
+Do not introduce another animation framework.
 
-- telemetry pulse
-- network activity
-- monitoring status
-- system connection
-- data travelling from field to control
+Create a restrained, consistent motion language.
 
-This should be used sparingly.
+### Editorial reveals
 
-A diagram should normally contain no more than one or two meaningful animated behaviours.
+For headings/copy:
 
----
+opacity: 0 → 1
+translateY: approximately 12–20px → 0
+duration: approximately 500–700ms
 
-# 4. IMAGE-LED DIAGRAMS
+### Image reveals
 
-The new diagrams follow the architecture:
+For cinematic/diagram images:
 
-IMAGE = WORLD
+opacity: 0 → 1
+translateY: approximately 12px → 0
 
-CODE = INFORMATION
+Optional subtle scale:
 
-ANIMATION = BEHAVIOUR
+0.99 → 1
 
-Preserve this architecture.
+Do not use dramatic zooms.
 
-Do not reconstruct image content in SVG.
+### Process rows
 
-Do not redraw:
+Small stagger:
 
-- reservoirs
-- pump stations
-- control centres
-- factories
-- telemetry sites
-- electrical panels
-- pipelines
-- process plants
+approximately 50–80ms
 
-The production images already provide these.
+Do not animate every individual word/icon.
 
 ---
 
-# 5. DIAGRAM ENTRANCE
+# 5. DO NOT ANIMATE EVERYTHING
 
-When an image-led diagram enters the viewport:
+Prioritise:
 
-1. heading/subtitle may reveal
-2. image enters subtly
-3. process row follows
-4. optional system behaviour activates
+- major page headings
+- major cinematic images
+- production diagrams
+- project visuals
+- capability visuals
+- important CTA sections
 
-Do not animate everything simultaneously.
+Simple paragraphs and small UI elements do not all require scroll animation.
 
-Example sequence:
+The website should feel:
 
-0ms
-Heading
+QUIETLY ALIVE
 
-100ms
-Subtitle
+not:
 
-200ms
-Image
-
-400ms
-Process items
-
-700ms+
-Optional system activity
-
-This should feel composed rather than theatrical.
+CONSTANTLY MOVING.
 
 ---
 
-# 6. TELEMETRY / CONNECTION MOTION
+# 6. PRODUCTION DIAGRAMS
 
-For diagrams involving:
+The production diagrams are already integrated.
 
-- telemetry
-- system integration
-- network control
-- connected infrastructure
+Do NOT change their architecture.
 
-consider a SMALL coded enhancement.
+Apply only consistent entrance behaviour where required.
 
-For example:
+Network-oriented visuals MAY receive one extremely subtle activity effect if
+there is already an obvious, simple implementation.
 
-●────────────●────────────●
-      →
+Do not create SVG topology overlays.
 
-A small cyan pulse can travel along an existing logical path.
+Do not trace every connection.
 
-IMPORTANT:
+Do not create fake live telemetry.
 
-Do not attempt to perfectly trace every connection already baked into the image.
+If adding the effect requires significant complexity:
 
-Do not build an SVG network replica.
+SKIP IT.
 
-One subtle pulse is enough to imply that the network is live.
-
-Potential implementation:
-
-- absolutely positioned overlay
-- simple SVG path
-- CSS offset-path
-- Motion path animation
-
-Choose the simplest maintainable solution compatible with the existing stack.
+The production image already communicates the system.
 
 ---
 
-# 7. TELEMETRY NETWORK — 09
+# 7. CINEMATIC IMAGE TREATMENT
 
-Use the approved Phase 2 Telemetry Network implementation as the reference.
+Review image transitions into the dark backgrounds.
 
-If Phase 2 already implemented motion:
+Where appropriate, improve integration using:
 
-DO NOT duplicate it.
+- subtle edge feathering
+- restrained dark gradient
+- very subtle cyan ambient illumination
+- clean spacing
 
-Inspect it.
+Images should feel embedded in the page rather than pasted into cards.
 
-Only refine if necessary.
+Do NOT add large glowing borders.
 
-This component should establish the preferred motion language for other network-oriented diagrams.
-
----
-
-# 8. WATER LOSS MANAGEMENT — 10
-
-This visual contains a leak/anomaly condition.
-
-Possible enhancement:
-
-The leak/anomaly region may receive an extremely subtle periodic emphasis.
-
-For example:
-
-opacity/glow:
-0.75 → 1 → 0.75
-
-duration:
-approximately 2.5–4 seconds
-
-Do NOT create:
-
-- flashing red warnings
-- aggressive alarms
-- shaking UI
-- repeated attention-grabbing animation
-
-It should feel like professional monitoring software identifying an exception.
+Do NOT put every image inside glass panels.
 
 ---
 
-# 9. ENERGY MANAGEMENT — 11
+# 8. OPTIONAL DEPTH
 
-The visual already communicates monitored energy consumers.
+For selected LARGE cinematic images only:
 
-Do not animate every metric.
+A tiny scroll-linked depth effect is acceptable.
 
-Possible enhancement:
+Maximum approximate movement:
 
-- subtle sequential activation of monitored areas
-- tiny pulse around one energy node
-- gentle appearance of coded supporting information
+10–20px
 
-Avoid animated charts unless an existing real chart component already belongs there.
-
-Do not invent live data.
-
----
-
-# 10. PROCESS AUTOMATION — 12
-
-Possible behaviour:
-
-A subtle visual pulse may travel:
-
-FIELD / PROCESS
-      ↓
-CONTROL
-      ↓
-MONITORING
-
-But do not build a complex process simulation.
-
-The visual should communicate:
-
-"The plant is operating."
-
-Not:
-
-"Look at our animation."
-
----
-
-# 11. EXPERIENCE DIAGRAMS — 13–16
-
-These represent actual project experience.
-
-Treat them more conservatively than conceptual diagrams.
-
-The emphasis should be:
-
-REAL PROJECT
-+
-REAL INFRASTRUCTURE
-+
-DELIVERED OUTCOME
-
-Possible motion:
-
-- image entrance
-- site marker reveal
-- subtle connection pulse
-- process row reveal
-
-Avoid making completed project visuals look fictional or overly futuristic.
-
----
-
-# 12. CINEMATIC INDUSTRIAL IMAGERY
-
-Phase 1 may have integrated larger industrial images as section breaks.
-
-These are excellent candidates for restrained environmental motion.
-
-Possible techniques:
-
-### Slow scale
+or scale:
 
 1 → 1.015
 
-### Scroll parallax
+Do not apply this to every image.
 
-Approximately 10–30px maximum.
+Do not use it on images containing small baked-in text if movement reduces
+legibility.
 
-### Gradient reveal
-
-Dark overlay subtly changes as section enters viewport.
-
-### Content separation
-
-Foreground copy moves slightly differently from background image.
-
-Use ONE technique where appropriate.
-
-Do not stack all of them.
+Do not interfere with the existing GLB ScrollTrigger sequence.
 
 ---
 
-# 13. IMAGE SECTION TRANSITIONS
+# 9. CAPABILITY CARDS
 
-The site now uses imagery to help replace the old:
+The capability cards now use production imagery.
 
-DARK → WHITE → DARK
+Polish their interaction consistently.
 
-rhythm.
-
-Improve transitions between:
-
-dark section
-↓
-cinematic image
-↓
-slate section
-
-Consider:
-
-- gradient feathering
-- dark overlays
-- edge fades
-- subtle background continuation
-
-Avoid obvious rectangular image cards where the image is intended to function as atmosphere.
-
-Some images should feel like they emerge naturally from the dark page.
-
----
-
-# 14. HERO
-
-Inspect the current hero before changing anything.
-
-Do NOT redesign it.
-
-Only improve motion if it currently feels static or disconnected from the new visual language.
-
-Potential improvements:
-
-- restrained background movement
-- slow image depth
-- small copy entrance
-- subtle illumination
-
-Do NOT add:
-
-- floating UI cards
-- particle systems
-- animated grids
-- giant glowing circles
-- random SVG networks
-- fake dashboards
-
-The hero should establish confidence, not visual noise.
-
----
-
-# 15. NAVIGATION
-
-Preserve navigation structure.
-
-Polish only existing interactions.
-
-Possible improvements:
-
-- smooth hover transition
-- active indicator movement
-- subtle underline/line expansion
-- controlled mobile menu transition
-
-Avoid elaborate magnetic effects or playful physics.
-
-This is an industrial corporate site.
-
----
-
-# 16. BUTTONS / CTAs
-
-Buttons should feel responsive but restrained.
-
-Acceptable:
-
-- approximately 1–2px translate
-- subtle background transition
-- subtle icon movement
-- border/illumination transition
-
-Avoid:
-
-- bouncing
-- large scaling
-- neon glow explosions
-- excessive gradients
-- ripple effects everywhere
-
----
-
-# 17. SECTION REVEALS
-
-Do not apply identical scroll animation to every element.
-
-This creates the generic "Framer Motion template" look.
-
-Vary behaviour based on content type.
-
-Examples:
-
-Editorial text:
-fade + slight rise
-
-Industrial image:
-fade + extremely small scale
-
-Process row:
-stagger
-
-Project card:
-fade + slight translation
-
-Divider:
-width expansion
-
-Diagram:
-structured sequence
-
----
-
-# 18. SCROLL BEHAVIOUR
-
-Do not hijack scrolling.
-
-Do not introduce:
-
-- smooth-scroll libraries unnecessarily
-- scroll-jacking
-- horizontal page scroll
-- pinned sections everywhere
-- long forced animation sequences
-
-Normal browser scrolling should remain intact.
-
-Scroll-linked animation should only enhance content already visible.
-
----
-
-# 19. HOVER INTERACTIONS
-
-Desktop hover should reveal small amounts of additional responsiveness.
-
-For image-led capability/project cards:
-
-possible:
+Desktop hover may use:
 
 image scale:
 1 → approximately 1.02
 
-overlay:
-slight change
-
 arrow:
-translateX approximately 3–5px
+translateX approximately 3px
 
 border:
-small cyan emphasis
+subtle accent transition
 
-Do not create large hover transformations.
+Keep it restrained.
 
-Mobile must not depend on hover.
+Mobile must not rely on hover.
 
 ---
 
-# 20. PERFORMANCE BUDGET
+# 10. PROJECT / EXPERIENCE VISUALS
 
-Motion must remain lightweight.
+Treat project visuals more conservatively.
+
+These represent engineering work.
+
+Use:
+
+- subtle entrance
+- restrained image treatment
+- clean typography
+
+Do NOT add:
+
+- fake SCADA activity
+- invented telemetry
+- flashing indicators
+- futuristic HUD overlays
+
+---
+
+# 11. NAVIGATION & BUTTONS
+
+Only polish existing interactions.
+
+Buttons:
+
+- subtle background transition
+- approximately 1px movement if appropriate
+- small arrow movement
+
+Navigation:
+
+- clean hover
+- clean active indication
+- smooth mobile menu behaviour
+
+Do not redesign navigation.
+
+---
+
+# 12. SECTION TRANSITIONS
+
+The site now uses:
+
+DEEP NAVY
+→ SLATE
+→ IMAGE
+→ DARK
+→ VISUAL
+→ GRAPHITE
+
+Review the transitions.
+
+Correct only obvious places where sections:
+
+- visually collide
+- lack separation
+- still feel like disconnected cards
+- have awkward spacing
+- contain harsh image edges
 
 Prefer:
 
-CSS transitions
-↓
-existing Motion library
-↓
-existing GSAP implementation if already justified
+- spacing
+- tonal shifts
+- subtle gradients
+- image feathering
 
-Do not introduce GSAP solely because it is powerful.
-
-Do not introduce another animation framework if one already exists.
-
-Avoid:
-
-- constant requestAnimationFrame loops
-- canvas effects
-- WebGL backgrounds
-- heavy shaders
-- particle engines
-- large animation libraries for tiny interactions
-
-Industrial imagery is already visually rich.
-
-The animation layer should remain cheap.
+rather than additional UI decoration.
 
 ---
 
-# 21. IMAGE PERFORMANCE
+# 13. EXISTING GSAP/GLB EXPERIENCE
 
-Preserve the supplied WebP assets.
+This deserves special verification.
 
-Do not:
+Test the existing GLB ScrollTrigger section at desktop size.
 
-- convert them
-- upscale them
-- duplicate them
-- preload all 16 diagrams
-- load Experience images globally
+Confirm:
 
-Use responsive image behaviour supported by the existing framework.
+- model loads
+- ScrollTrigger activates
+- pinned/scroll behaviour remains correct
+- model animation remains smooth
+- section height remains correct
+- surrounding dark-theme changes do not break it
+- no z-index issue hides the model
+- no new reveal animation conflicts with ScrollTrigger
 
-Avoid layout shift.
+DO NOT apply generic Reveal/Motion animation to the GLB canvas/container if it
+interferes with its existing animation lifecycle.
 
-Lazy-load below-the-fold visual assets where appropriate.
+The existing 3D sequence wins.
 
 ---
 
-# 22. PREFERS-REDUCED-MOTION
-
-This is mandatory.
+# 14. REDUCED MOTION
 
 Respect:
 
 prefers-reduced-motion: reduce
 
-When active:
-
-REMOVE:
+Disable nonessential:
 
 - parallax
-- continuous scaling
-- travelling telemetry pulses
-- repeating glows
-- nonessential motion
+- continuous scale
+- repeated pulses
+- decorative movement
+- stagger where appropriate
 
-KEEP:
+Content must remain visible.
 
-- content visible
-- state understandable
-- navigation usable
-- diagrams understandable
+Do not break the existing GLB implementation attempting to retrofit reduced
+motion if it already has its own behaviour.
 
-Do not hide information behind animation.
-
----
-
-# 23. MOBILE
-
-Motion should become SIMPLER on mobile.
-
-Do not try to preserve every desktop animation.
-
-On mobile:
-
-- remove or reduce parallax
-- simplify stagger
-- avoid expensive overlays
-- preserve image composition
-- preserve text readability
-- preserve touch responsiveness
-
-A 390px device should feel smooth.
+If GLB reduced-motion handling requires architectural changes, REPORT IT
+instead of rewriting the feature.
 
 ---
 
-# 24. ACCESSIBILITY
+# 15. MOBILE
 
-Animation must never:
+Keep mobile simpler than desktop.
 
-- obscure text
-- make content difficult to read
-- repeatedly flash
-- require precise timing
-- prevent keyboard interaction
-- interfere with focus states
+At approximately 390px:
 
-Maintain semantic HTML established in Phase 2.
+- remove parallax
+- minimise stagger
+- preserve diagram image readability
+- preserve image aspect ratios
+- no horizontal scrolling
+- no expensive decorative animation
 
-Preserve visible focus states.
-
----
-
-# 25. REMOVE OBSOLETE ANIMATION
-
-Inspect the old implementation.
-
-If previous React/SVG diagrams or legacy sections left behind:
-
-- animation hooks
-- observers
-- CSS keyframes
-- Motion variants
-- SVG animation utilities
-
-that are now provably unused:
-
-remove them carefully.
-
-DO NOT perform broad speculative cleanup.
-
-Only remove code that is clearly obsolete because of the new implementation.
+Do not crop production diagrams merely to make them taller.
 
 ---
 
-# 26. CONSISTENCY PASS
+# 16. PERFORMANCE
 
-Review the complete site.
+Do not add:
 
-Look specifically for places where:
+- WebGL effects
+- particle systems
+- another animation framework
+- canvas backgrounds
+- shader effects
+- new Three.js scenes
+- requestAnimationFrame loops
 
-- one section still feels like the old light design
-- one animation is dramatically stronger than everything else
-- a diagram still looks like software documentation
-- images appear trapped inside unnecessary cards
-- cyan glow is overused
-- section spacing becomes inconsistent
-- typography hierarchy changed accidentally
-- old diagram remnants remain visible
+The existing GLB experience is grandfathered in.
 
-Correct only issues directly related to the Phase 1–3 redesign.
+Use existing Motion/CSS/GSAP infrastructure.
 
----
-
-# 27. VISUAL RHYTHM TARGET
-
-The final site should broadly feel like:
-
-DARK EDITORIAL
-      ↓
-INDUSTRIAL IMAGE
-      ↓
-DARK / SLATE CONTENT
-      ↓
-IMAGE-LED DIAGRAM
-      ↓
-DARK CONTENT
-      ↓
-PROJECT / INFRASTRUCTURE IMAGE
-      ↓
-DARK CTA
-
-The visitor should experience alternating:
-
-INFORMATION
-↓
-PHYSICAL WORLD
-↓
-ENGINEERING EXPLANATION
-↓
-PROOF
-
-without needing white sections.
+Do not preload every production image.
 
 ---
 
-# 28. BRAND TEST
+# 17. CLEANUP
 
-After implementation, evaluate each major page against these questions:
+Only remove animation code that becomes CLEARLY unused because of work
+already completed in Phase 1/2.
 
-Does this feel like a real industrial engineering company?
+Do not perform broad cleanup.
 
-Can a non-engineer understand roughly what they are looking at?
+TelemetrySphere.tsx may remain dormant if deleting it risks dependency churn.
 
-Would an engineer still recognise credible industrial systems?
-
-Does the site feel technologically capable without looking like a software startup?
-
-Do the people and infrastructure feel relevant to an African engineering context?
-
-Does animation support meaning rather than compete with it?
-
-If any answer is no, make the smallest appropriate correction.
+There is no requirement to remove it.
 
 ---
 
-# 29. VERIFICATION
+# 18. VISUAL QA
 
-Test at minimum:
+Inspect representative pages:
+
+- Home
+- Company
+- Capabilities
+- System Integration
+- Industries
+- Experience
+- Water Loss Management
+- Energy Management
+- eThekwini
+- ERWAT
+- Nsezi
+- Joe Gqabi
+
+Do NOT deeply reanalyse their architecture.
+
+Simply visually inspect the existing implementation.
+
+---
+
+# 19. VERIFY
+
+Test approximately:
 
 1440px
 1024px
@@ -803,145 +451,98 @@ Test at minimum:
 
 Check:
 
-- animation performance
-- image loading
-- responsive diagrams
-- process rows
-- navigation
-- hover states
-- touch behaviour
-- reduced motion
+- production image quality
+- diagram readability
+- motion consistency
+- section transitions
+- hover behaviour
+- mobile behaviour
 - horizontal overflow
-- layout shift
-- text contrast
+- reduced motion
+- GLB ScrollTrigger feature
 
-Run existing:
+Run:
 
-- typecheck
-- lint
-- build
-- relevant tests
+npm run lint
+npm run build
 
-Fix regressions introduced by this phase.
-
-Do not fix unrelated historical problems.
+Fix only regressions caused by this phase.
 
 ---
 
-# 30. SCREENSHOTS
-
-If existing screenshot tooling is available, capture representative views of:
-
-1. homepage
-2. one capability section
-3. Telemetry Network
-4. Water Loss Management
-5. one Experience/project page
-6. mobile view
-
-Do not introduce a heavy screenshot dependency if none exists.
-
----
-
-# 31. DO NOT DO THESE THINGS
+# 20. HARD GUARDRAILS
 
 DO NOT:
 
-- redesign the site again
-- change approved layouts
-- rewrite marketing copy
+- redo Phase 1
+- redo Phase 2
+- remap assets
+- rebuild diagrams
+- rebuild legacy diagrams
+- replace the GLB
+- remove GSAP
+- remove ScrollTrigger
+- remove Three.js
+- introduce another animation framework
+- rewrite copy
 - change routes
-- replace production images
-- regenerate assets
-- recreate diagrams using React SVG
-- introduce WebGL
-- introduce Three.js
-- introduce particle systems
-- create fake live data
-- create fake SCADA functionality
-- add sound
-- add cursor effects
-- add scroll-jacking
-- add generic SaaS dashboard elements
-- add excessive glassmorphism
+- change business logic
+- add generic dashboard UI
+- add cyberpunk styling
 - add excessive cyan glow
-- animate everything
-- continue into unrelated cleanup
+- add particles
+- add animated grids
+- add fake telemetry
+- broadly refactor the repository
 
 ---
 
-# 32. STOP CONDITION
+# 21. STOP CONDITION
 
-Phase 3 is complete when:
+Stop when:
 
-1. the dark/image-led design feels visually cohesive
-2. diagrams have restrained meaningful motion
-3. cinematic images integrate naturally with dark sections
-4. page transitions/reveals feel polished
-5. mobile remains performant
-6. reduced-motion is fully supported
-7. obsolete diagram animation code directly superseded by this work is removed
-8. existing functionality remains intact
+1. existing image-led sections have consistent restrained motion
+2. image-to-dark transitions feel polished
+3. capability/project interactions feel refined
+4. mobile remains smooth
+5. reduced-motion is respected
+6. GLB ScrollTrigger experience is confirmed working
+7. lint/build pass
 
-STOP THERE.
-
-Do not begin another redesign phase.
+DO NOT continue into unrelated improvements.
 
 ---
 
-# 33. FINAL REPORT
+# 22. FINAL REPORT
 
-Return:
+Return ONLY:
 
-## Motion system
+## Motion Added
+List components/sections changed.
 
-Describe the final motion hierarchy.
+## Visual Polish
+List image/section treatments changed.
 
-## Diagram motion
+## GLB / ScrollTrigger Verification
+Explicitly report whether the existing 3D experience still works.
 
-For each diagram where motion was added, state exactly what moves.
+## Mobile / Reduced Motion
+Report behaviour.
 
-## Image treatments
-
-List sections receiving parallax, scale, gradients or other treatments.
-
-## Interaction polish
-
-List navigation/button/card improvements.
-
-## Responsive changes
-
-Explain desktop/tablet/mobile differences.
-
-## Reduced motion
-
-Explain exactly what is disabled.
-
-## Performance
-
-Mention any optimisations or obsolete animation code removed.
-
-## Files changed
-
-List every changed file.
+## Files Changed
+List files.
 
 ## Verification
-
-Report:
-
-- typecheck
 - lint
-- build
-- tests
-- screenshots
+- TypeScript/build
+- visual checks
 
-## Guardrails confirmed
+## Deferred
+Confirm these remain untouched:
 
-Explicitly confirm that:
-
-- diagrams were NOT rebuilt with React/SVG
-- production images were preserved
-- no heavy animation framework was unnecessarily introduced
-- no routes/copy/business logic were changed
+- Cygnus Substation Architecture
+- Field-to-Cloud Data Pipeline
+- Capability Topology
+- Delivered Engineering Workstreams
 
 STOP.

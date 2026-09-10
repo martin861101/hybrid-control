@@ -2,22 +2,43 @@
 
 :root {
   font-family: 'DM Sans', Arial, sans-serif;
-  color: #07162b;
-  background: #f1f5f8;
+  color: #c4d5e5;
+  background: #020817;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  --ink: #07162b;
-  --navy: #020b1d;
+
+  /* Hybrid Control Dark Tonal Hierarchy */
+  --navy: #020817;
+  --navy-deep: #020817;
+  --navy-secondary: #061321;
+  --slate-elevated: #0a1a2a;
+  --slate-surface: #0d2133;
+  --card-surface: #071a2e;
+
+  /* Borders and dividers */
+  --border-subtle: #163b5c;
+  --border-muted: rgba(110, 216, 255, 0.14);
+  --border-subtle-glow: rgba(22, 185, 255, 0.22);
+
+  /* Accents */
   --blue: #087cf0;
   --cyan: #16b9ff;
-  --paper: #f1f5f8;
-  --muted: #71869b;
+  --cyan-bright: #6ed8ff;
+
+  /* Typography & contrast */
+  --ink: #ffffff;
+  --text-heading: #ffffff;
+  --text-lead: #c4d5e5;
+  --text-body: #9bb0c4;
+  --text-muted: #6e879f;
+  --paper: #0a1a2a;
+  --muted: #6e879f;
 }
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; min-width: 320px; overflow-x: hidden; background: var(--paper); }
+body { margin: 0; min-width: 320px; overflow-x: hidden; background: var(--navy-deep); color: var(--text-body); }
 a { color: inherit; text-decoration: none; }
 button { font: inherit; }
 img { max-width: 100%; display: block; }

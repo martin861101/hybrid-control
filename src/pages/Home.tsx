@@ -6,7 +6,7 @@ import controlInfrastructure from '../assets/legacy/control-infrastructure.jpeg'
 import electricalVerification from '../assets/legacy/electrical-verification.jpeg'
 import panelIntegration from '../assets/legacy/panel-integration.jpeg'
 import Reveal from '../components/ui/Reveal'
-import TelemetrySphere from '../components/ui/TelemetrySphere'
+import TelemetryNetworkDiagram from '../components/ui/TelemetryNetworkDiagram'
 import ScrollPumpModel from '../components/ui/ScrollPumpModel'
 import ProjectVisual from '../components/projects/ProjectVisual'
 import { capabilities, digitalSolutions, industries, partners, process, products, projects } from '../data/site'
@@ -84,7 +84,7 @@ export default function Home() {
 
       <section className="intro section" id="intro">
         <Reveal className="section-head"><Eyebrow>Who we are</Eyebrow><h2>Technology is only valuable<br />when it solves the <em>right problem.</em></h2></Reveal>
-        <Reveal className="pump-model-wrap"><ScrollPumpModel /></Reveal>
+        <div className="pump-model-wrap"><ScrollPumpModel /></div>
         <div className="intro-grid">
           <Reveal className="intro-copy"><p>Hybrid Control Corporation was established in 2008 to design, integrate and manage electrical and automation systems. Today, our work connects real infrastructure to the intelligence needed to operate it better.</p><Link className="text-link dark" to="/company">Discover our company <ArrowUpRight /></Link></Reveal>
           <Reveal className="capability-sentence"><span>Engineering</span><i /><span>Integration</span><i /><span>Manufacturing</span><i /><span>Maintenance</span><i /><span>Project Management</span></Reveal>
@@ -113,9 +113,21 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="telemetry section">
-        <Reveal className="telemetry-copy"><Eyebrow>Telemetry & system integration</Eyebrow><h2>From remote assets<br />to <em>actionable intelligence.</em></h2><p>We connect isolated field infrastructure to control and information platforms, creating a dependable path from field signal to operational decision.</p><Link className="button button-dark" to="/capabilities/system-integration">Explore connected systems <ArrowRight /></Link></Reveal>
-        <Reveal className="signal-system"><TelemetrySphere /></Reveal>
+      <section className="telemetry section" id="telemetry">
+        <Reveal className="section-title-row">
+          <div>
+            <Eyebrow>Telemetry & system integration</Eyebrow>
+            <h2>From remote assets<br />to <em>actionable intelligence.</em></h2>
+          </div>
+          <div>
+            <p>We connect isolated field infrastructure to control and information platforms, creating a dependable path from field signal to operational decision.</p>
+            <Link className="button button-dark" to="/capabilities/system-integration">Explore connected systems <ArrowRight /></Link>
+          </div>
+        </Reveal>
+
+        <div className="telemetry-stage">
+          <TelemetryNetworkDiagram />
+        </div>
       </section>
 
       <section className="digital-intelligence section dark-section" id="digital-intelligence">

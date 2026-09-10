@@ -51,12 +51,12 @@ export default function ErwatNetworkReveal() {
     let baseScale = 1
     let disposed = false
     let scrollTimeline: gsap.core.Timeline | undefined
-    let scrubProxy = { progress: 0 }
+    const scrubProxy = { progress: 0 }
     let duration = 0
     let videoAspect = 16 / 9
     let geomW = 3.6
     let geomH = geomW / videoAspect
-    let overlayIntensity = { value: 0 }
+    const overlayIntensity = { value: 0 }
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -318,7 +318,6 @@ export default function ErwatNetworkReveal() {
         crossOrigin="anonymous"
         aria-hidden="true"
         tabIndex={-1}
-        // @ts-ignore — webkit specific
         webkit-playsinline="true"
         controls={false}
       />

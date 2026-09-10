@@ -8,6 +8,11 @@ import { engineeringFlagships, projects } from '../data/site'
 import infrastructureImage from '../assets/industrial-hero1.png'
 import ErwatNetworkReveal from '../components/projects/ErwatNetworkReveal'
 
+const flagshipImages: Record<string, { src: string; alt: string; aspect: string }> = {
+  midmar: { src: '/diagrams/diagram_process-automation.webp', alt: 'Midmar Water Treatment Works process automation architecture from field actuators to SCADA operations', aspect: '1085 / 363' },
+  nsezi: { src: '/diagrams/diagram_nsezi-process-automation.webp', alt: 'Nsezi Water Treatment Works complete plant automation and control environment', aspect: '1039 / 378' },
+}
+
 const architecture = ['FIELD', 'MEASUREMENT', 'COMMUNICATION', 'CONTROL', 'AUTOMATION', 'ANALYTICS', 'OPERATIONS']
 const capabilityStrip = ['Process automation', 'PLC engineering', 'SCADA', 'AS-i', 'Industrial networks', 'Instrumentation', 'Electrical engineering', 'Telemetry', 'Analytics', 'Reporting', 'Control systems', 'System integration']
 
@@ -48,7 +53,19 @@ export default function ProjectsPage() {
           </Reveal>
         </div>
         <div className="flagship-system" id={`${project.slug}-system`}>
-          <EngineeringDiagram kind={project.visualisation} label={`${project.title} ${project.subtitle} engineering architecture`} />
+          {flagshipImages[project.slug] ? (
+            <div className="flagship-image-wrap">
+              <img
+                src={flagshipImages[project.slug].src}
+                alt={flagshipImages[project.slug].alt}
+                style={{ aspectRatio: flagshipImages[project.slug].aspect }}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          ) : (
+            <EngineeringDiagram kind={project.visualisation} label={`${project.title} ${project.subtitle} engineering architecture`} />
+          )}
           <div className="chapter-capabilities">{project.capabilities.map((capability, capabilityIndex) => <div key={capability}><span>{String(capabilityIndex + 1).padStart(2, '0')}</span><strong>{capability}</strong></div>)}</div>
         </div>
         {index < engineeringFlagships.length - 1 && <div className="chapter-transition" aria-hidden="true"><i/><span>{index === 0 ? 'PROCESS AUTOMATION → COMPLETE PLANT AUTOMATION' : 'PROCESS SIGNAL → ELECTRICAL SINGLE-LINE'}</span></div>}

@@ -3,6 +3,7 @@ import { Link, useLocation, useParams } from 'react-router-dom'
 import Reveal from '../components/ui/Reveal'
 import { capabilities, digitalSolutions, industries, products, projects, partners } from '../data/site'
 import ProjectVisual from '../components/projects/ProjectVisual'
+import VisualDiagramFrame from '../components/ui/VisualDiagramFrame'
 
 const pageMap: Record<string, { eyebrow: string; title: string; intro: string }> = {
   company: { eyebrow: 'Who we are', title: 'Engineering with purpose.\nTechnology with consequence.', intro: 'Hybrid Control Corporation has delivered electrical, automation and telemetry projects since 2008, combining specialist engineering with a practical understanding of operations.' },
@@ -60,11 +61,11 @@ const industryCapabilities: Record<string, string[]> = {
 }
 
 const capabilityImages: Record<string, { src: string; alt: string }> = {
-  engineering: { src: '/img/img-042.png', alt: 'Industrial control cabinet with PLC and electrical components' },
-  'system-integration': { src: '/img/img-037.png', alt: 'Integrated field control enclosure with automation equipment' },
-  maintenance: { src: '/img/img-043.png', alt: 'Variable-speed drive and motor control components inside an electrical panel' },
-  manufacturing: { src: '/img/img-038.png', alt: 'Built electrical switchboard panels in a manufacturing workshop' },
-  'project-management': { src: '/img/img-033.png', alt: 'Hybrid Control field vehicles at an industrial water treatment site' },
+  engineering: { src: '/diagrams/diagram_engineering-process.webp', alt: 'Engineering design and control architecture process' },
+  'system-integration': { src: '/diagrams/diagram_system-integration.webp', alt: 'System integration and industrial networking field infrastructure' },
+  maintenance: { src: '/diagrams/diagram_maintenance.webp', alt: 'Lifecycle maintenance and instrumentation diagnostics' },
+  manufacturing: { src: '/diagrams/manufacturing.webp', alt: 'Industrial control panel and MCC manufacturing assembly' },
+  'project-management': { src: '/diagrams/project-management.webp', alt: 'Engineering project management and site commissioning operations' },
 }
 
 const industryImages: Record<string, { src: string; alt: string }> = {
@@ -77,6 +78,15 @@ const industryImages: Record<string, { src: string; alt: string }> = {
   Mining: { src: '/img/img-028.png', alt: 'Large mining haul truck in operation' },
   Manufacturing: { src: '/img/img-004.png', alt: 'Automated manufacturing production line' },
   'FMCG & Packaging': { src: '/img/img-051.png', alt: 'Bottling production line with industrial flow measurement equipment' },
+}
+
+const projectDiagramImages: Record<string, { src: string; alt: string; aspect: string }> = {
+  'water-loss-management': { src: '/diagrams/diagram_water-loss-management.webp', alt: 'Water loss management telemetry network with pressure regulation and flow monitoring across the distribution system', aspect: '1085 / 362' },
+  'ethekwini-telemetry-upgrade': { src: '/diagrams/diagram_ethekweni-telementry-upgrade.webp', alt: 'eThekwini wastewater telemetry upgrade across 146 pump stations with DNP3 interoperability', aspect: '1039 / 378' },
+  'nsezi-process-automation': { src: '/diagrams/diagram_nsezi-process-automation.webp', alt: 'Nsezi Water Treatment Works process automation and control architecture', aspect: '1039 / 378' },
+  'erwat-network-control': { src: '/diagrams/diagram_derwat-network-control.webp', alt: 'ERWAT remote pump station monitoring and control network with Adroit SCADA', aspect: '1040 / 378' },
+  'joe-gqabi-telemetry': { src: '/diagrams/diagram_joe-gqabi-telementry.webp', alt: 'Joe Gqabi District telemetry and SCADA system for distributed water assets', aspect: '1040 / 378' },
+  'energy-management': { src: '/diagrams/diagram_energy-management.webp', alt: 'Royal Swazi Sugar energy management system with power monitoring and web reporting', aspect: '1085 / 363' },
 }
 
 export default function InnerPage() {
@@ -130,6 +140,19 @@ function CompanyPage({ page }: { page: { eyebrow: string; title: string; intro: 
         <div><strong>2008</strong><span>Established</span><p>Hybrid Control Corporation was formed to design, integrate and manage electrical and automation systems for infrastructure and industry.</p></div>
         <div><strong>System integrator</strong><span>Positioning</span><p>Not a product vendor—an engineering partner accountable for the complete system from field instrumentation to operational intelligence.</p></div>
         <div><strong>360°</strong><span>Lifecycle</span><p>Discover → Engineer → Integrate → Deploy → Support. One team across concept, build, commissioning and lifecycle operations.</p></div>
+      </Reveal>
+    </section>
+
+    <section className="company-ecosystem section">
+      <Reveal className="section-title-row">
+        <div>
+          <div className="eyebrow"><i />Hybrid Control ecosystem</div>
+          <h2>Five connected business units,<br/><em>one integrated system.</em></h2>
+        </div>
+        <p>Engineering, system integration, manufacturing, maintenance and project management work as a single delivery model around the client's operational requirement.</p>
+      </Reveal>
+      <Reveal className="ecosystem-visual">
+        <img src="/diagrams/diagram_hybrid-control-ecosystem.webp" alt="Hybrid Control integrated business ecosystem connecting engineering, manufacturing, integration, maintenance and project management" loading="lazy" decoding="async" />
       </Reveal>
     </section>
 
@@ -198,6 +221,13 @@ function CapabilitiesOverview({ page }: { page: { eyebrow: string; title: string
 function IndustriesPage({ page }: { page: { eyebrow: string; title: string; intro: string } }) {
   return <main className="inner-page" id="main-content">
     <section className="page-hero"><div className="page-grid"/><Reveal><div className="eyebrow"><i />{page.eyebrow}</div><h1>{page.title.split('\n').map((line, i, all) => <span key={line}>{line}{i === all.length - 1 && <em>.</em>}</span>)}</h1><p>{page.intro}</p></Reveal><div className="page-index">HCC / INDUSTRIES / 2026</div></section>
+    
+    <section className="industries-overview section">
+      <Reveal className="industries-hero-visual">
+        <img src="/diagrams/industries.webp" alt="Industrial infrastructure and water treatment environments served by Hybrid Control" loading="lazy" decoding="async" />
+      </Reveal>
+    </section>
+
     <section className="industries-detail section">
       <Reveal><div className="eyebrow"><i />Recognise your environment</div><h2>Hybrid Control understands<br/><em>your operating context.</em></h2></Reveal>
       <div className="industry-detail-grid">
@@ -256,9 +286,28 @@ function InsightsPage({ page }: { page: { eyebrow: string; title: string; intro:
 }
 
 function ProjectDetail({ project, index }: { project: (typeof projects)[number]; index: number }) {
+  const diagram = projectDiagramImages[project.slug]
   return <main className="project-detail-page" id="main-content">
     <section className="project-detail-hero"><div className="page-grid"/><Reveal><div className="eyebrow"><i />Project {project.id} · {project.type}</div><h1>{project.title}<em>.</em></h1><div className="project-detail-meta"><span>{project.client}</span><span>{project.location}</span><span>{project.signal}</span></div></Reveal></section>
-    <section className="project-detail-story section"><ProjectVisual project={project} index={index}/><Reveal><div className="eyebrow"><i />Operational requirement</div><h2>The challenge.</h2><p className="detail-lead">{project.challenge}</p><p>{project.copy}</p><h3>Delivered capability</h3><ul>{project.delivery.map(item => <li key={item}>{item}</li>)}</ul><Link className="button button-dark" to="/experience">All core projects <ArrowRight/></Link></Reveal></section>
+    <section className="project-detail-story section">
+      {diagram ? (
+        <Reveal>
+          <div className="project-diagram-stage">
+            <VisualDiagramFrame 
+              number={project.id} 
+              title={project.title} 
+              imageSrc={diagram.src} 
+              imageAlt={diagram.alt} 
+              aspectRatio={diagram.aspect} 
+              footer={<ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>{project.delivery.map(item => <li key={item}>{item}</li>)}</ul>} 
+            />
+          </div>
+        </Reveal>
+      ) : (
+        <ProjectVisual project={project} index={index}/>
+      )}
+      <Reveal><div className="eyebrow"><i />Operational requirement</div><h2>The challenge.</h2><p className="detail-lead">{project.challenge}</p><p>{project.copy}</p><h3>Delivered capability</h3><ul>{project.delivery.map(item => <li key={item}>{item}</li>)}</ul><Link className="button button-dark" to="/experience">All core projects <ArrowRight/></Link></Reveal>
+    </section>
     <section className="inner-cta"><h2>Build the next operating system.</h2><Link className="button button-light" to="/contact">Discuss a project <ArrowRight /></Link></section>
   </main>
 }
@@ -273,6 +322,9 @@ function DigitalCapability() {
 
   return <section className="capability-digital section dark-section" id="digital-intelligence">
     <Reveal className="capability-digital-head"><div><div className="eyebrow"><i />Beyond SCADA</div><h2>Industrial data,<br/><em>made operational.</em></h2></div><div><p>SCADA remains essential for control and visualization. The next layer connects that OT foundation with other operational and enterprise data so teams can understand asset health, energy use, production performance and sustainability in context.</p><p>As a Rockwell Automation system integrator, Hybrid Control can incorporate FactoryTalk DataMosaix and aligned digital applications where they fit the client’s architecture and business case.</p></div></Reveal>
+    <Reveal className="scada-visual">
+      <img src="/diagrams/scada-and-operations.webp" alt="Industrial SCADA and operations control room with real-time process monitoring" loading="lazy" decoding="async" />
+    </Reveal>
     <div className="intelligence-stages">{stages.map(([title, copy, Icon], i) => <Reveal key={title}><span>0{i + 1}</span><Icon/><h3>{title}</h3><p>{copy}</p></Reveal>)}</div>
     <div className="application-suite"><div className="suite-label"><span>Rockwell digital application layer</span><strong>Available as SaaS or on-premise, subject to solution design.</strong></div>{digitalSolutions.map(item => <div key={item.title}><h3>{item.title}</h3><p>{item.copy}</p></div>)}</div>
     <p className="platform-note">FactoryTalk DataMosaix and associated digital applications are Rockwell Automation technologies. Capabilities shown describe the solution ecosystem available for Hybrid Control to evaluate and integrate; they are not represented as proprietary Hybrid Control software.</p>

@@ -9,6 +9,7 @@ import Reveal from '../components/ui/Reveal'
 import TelemetryNetworkDiagram from '../components/ui/TelemetryNetworkDiagram'
 import ScrollPumpModel from '../components/ui/ScrollPumpModel'
 import ProjectVisual from '../components/projects/ProjectVisual'
+import { HybridControlSphere } from '../components/ui/HybridControlSphere'
 import { capabilities, digitalSolutions, industries, partners, process, products, projects } from '../data/site'
 
 const Eyebrow = ({ children }: { children: React.ReactNode }) => <div className="eyebrow"><i />{children}</div>
@@ -177,7 +178,7 @@ export default function Home() {
       <section className="partners section">
         <Reveal><Eyebrow>Technology ecosystem</Eyebrow><h2>Partnerships built around<br /><em>proven industrial platforms.</em></h2></Reveal>
         <div className="partner-grid">{partners.map(partner => <div key={partner}>{partner}</div>)}</div>
-        <div className="impact"><div className="impact-graphic"><span>01</span><span>Next<br />generation</span></div><Reveal><Eyebrow>Social responsibility</Eyebrow><h3>Engineering progress<br />beyond infrastructure.</h3><p>We work with clients to support youth development, graduate training and emerging businesses in the communities where we operate.</p><Link className="text-link dark" to="/company">Our company story <ArrowUpRight /></Link></Reveal></div>
+        <div className="impact"><div className="impact-graphic"><HybridControlSphere /></div><Reveal><Eyebrow>Social responsibility</Eyebrow><h3>Engineering progress<br />beyond infrastructure.</h3><p>We work with clients to support youth development, graduate training and emerging businesses in the communities where we operate.</p><Link className="text-link dark" to="/company">Our company story <ArrowUpRight /></Link></Reveal></div>
       </section>
 
       <section className="certifications section" aria-labelledby="certifications-title">

@@ -8,6 +8,8 @@ import Footer from './components/layout/Footer'
 import Seo from './components/Seo'
 import { resolveSeo } from './data/seo'
 
+import ErrorBoundary from './components/ui/ErrorBoundary'
+
 const Home = lazy(() => import('./pages/Home'))
 const InnerPage = lazy(() => import('./pages/InnerPage'))
 const ProjectsPage = lazy(() => import('./pages/ProjectsPage'))
@@ -32,16 +34,18 @@ function SiteRoutes() {
     <Header />
     {location.pathname === '/' && <LogoIntro />}
     <AnimatePresence mode="wait"><motion.div key={location.pathname} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: .25 }}>
-      <Suspense fallback={<div className="route-loading" aria-hidden="true" />}>
-        <Routes location={location}>
-          <Route path="/" element={<Home />} />
-          <Route path="/experience" element={<ProjectsPage />} />
-          <Route path="/projects" element={<ProjectsPage />} />
-          <Route path="/capabilities/:capability" element={<InnerPage />} />
-          <Route path="/experience/:project" element={<InnerPage />} />
-          <Route path="/*" element={<InnerPage />} />
-        </Routes>
-      </Suspense>
+      <ErrorBoundary>
+        <Suspense fallback={<div className="route-loading" aria-hidden="true" />}>
+          <Routes location={location}>
+            <Route path="/" element={<Home />} />
+            <Route path="/experience" element={<ProjectsPage />} />
+            <Route path="/projects" element={<ProjectsPage />} />
+            <Route path="/capabilities/:capability" element={<InnerPage />} />
+            <Route path="/experience/:project" element={<InnerPage />} />
+            <Route path="/*" element={<InnerPage />} />
+          </Routes>
+        </Suspense>
+      </ErrorBoundary>
     </motion.div></AnimatePresence>
     <Footer />
   </>

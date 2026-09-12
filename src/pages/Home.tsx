@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowRight, ArrowUpRight, BadgeCheck, BrainCircuit, Check, CloudCog, Database, HardHat, Leaf, Signal, Waves } from 'lucide-react'
+import { ArrowDown, ArrowRight, ArrowUpRight, BadgeCheck, Box, BrainCircuit, Check, CloudCog, Cog, Database, Droplet, FlaskConical, HardHat, Leaf, Mountain, Signal, Waves, Zap } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { motion } from 'motion/react'
 import heroImage from '../assets/industrial-hero.png'
@@ -10,7 +10,49 @@ import TelemetryNetworkDiagram from '../components/ui/TelemetryNetworkDiagram'
 import ScrollPumpModel from '../components/ui/ScrollPumpModel'
 import ProjectVisual from '../components/projects/ProjectVisual'
 import { HybridControlSphere } from '../components/ui/HybridControlSphere'
-import { capabilities, digitalSolutions, industries, partners, process, products, projects } from '../data/site'
+import HybridTopologyBackground from '../components/ui/TopologyField'
+import EarthHorizon from '../components/ui/globe'
+import '../styles/industries-landing.css'
+import { capabilities, digitalSolutions, partners, process, products, projects } from '../data/site'
+
+function EnergyPylonIcon({ className = '', size = 32 }: { className?: string; size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M12 2L8.5 9L5 22" />
+      <path d="M12 2L15.5 9L19 22" />
+      <path d="M6.5 9h11" />
+      <path d="M4 14h16" />
+      <path d="M6 18h12" />
+      <path d="M8.5 9l7 5" />
+      <path d="M15.5 9l-7 5" />
+      <path d="M7 18l10 4" />
+      <path d="M17 18l-10 4" />
+    </svg>
+  )
+}
+
+const landingIndustries = [
+  { num: '01', lines: ['Water &', 'Wastewater'], title: 'Water & Wastewater', Icon: Droplet },
+  { num: '02', lines: ['Power', 'Generation'], title: 'Power Generation', Icon: Zap },
+  { num: '03', lines: ['Renewable', 'Energy'], title: 'Renewable Energy', Icon: Leaf },
+  { num: '04', lines: ['Energy'], title: 'Energy', Icon: EnergyPylonIcon },
+  { num: '05', lines: ['Chemical'], title: 'Chemical', Icon: FlaskConical },
+  { num: '06', lines: ['Oil & Gas'], title: 'Oil & Gas', Icon: Droplet },
+  { num: '07', lines: ['Mining'], title: 'Mining', Icon: Mountain },
+  { num: '08', lines: ['Manufacturing'], title: 'Manufacturing', Icon: Cog },
+  { num: '09', lines: ['FMCG &', 'Packaging'], title: 'FMCG & Packaging', Icon: Box },
+]
 
 const Eyebrow = ({ children }: { children: React.ReactNode }) => <div className="eyebrow"><i />{children}</div>
 
@@ -84,8 +126,9 @@ export default function Home() {
       </section>
 
       <section className="intro section" id="intro">
+        <ScrollPumpModel />
         <Reveal className="section-head"><Eyebrow>Who we are</Eyebrow><h2>Technology is only valuable<br />when it solves the <em>right problem.</em></h2></Reveal>
-        <div className="pump-model-wrap"><ScrollPumpModel /></div>
+        <div className="pump-model-wrap" aria-hidden="true" />
         <div className="intro-grid">
           <Reveal className="intro-copy"><p>Hybrid Control Corporation was established in 2008 to design, integrate and manage electrical and automation systems. Today, our work connects real infrastructure to the intelligence needed to operate it better.</p><Link className="text-link dark" to="/company">Discover our company <ArrowUpRight /></Link></Reveal>
           <Reveal className="capability-sentence"><span>Engineering</span><i /><span>Integration</span><i /><span>Manufacturing</span><i /><span>Maintenance</span><i /><span>Project Management</span></Reveal>
@@ -114,20 +157,40 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="telemetry section" id="telemetry">
-        <Reveal className="section-title-row">
-          <div>
-            <Eyebrow>Telemetry & system integration</Eyebrow>
-            <h2>From remote assets<br />to <em>actionable intelligence.</em></h2>
-          </div>
-          <div>
-            <p>We connect isolated field infrastructure to control and information platforms, creating a dependable path from field signal to operational decision.</p>
-            <Link className="button button-dark" to="/capabilities/system-integration">Explore connected systems <ArrowRight /></Link>
-          </div>
-        </Reveal>
+      <section className="telemetry section relative isolate overflow-hidden" id="telemetry">
+        <HybridTopologyBackground
+          variant="telemetry"
+          seed={101}
+          opacity={0.82}
+          saturation={1.0}
+          brightness={1.0}
+        />
 
-        <div className="telemetry-stage">
-          <TelemetryNetworkDiagram />
+        {/* Readability layer */}
+        <div
+          className="pointer-events-none absolute inset-0 z-[1]"
+          style={{
+            background:
+              "linear-gradient(90deg, rgba(6,19,33,.45) 0%, rgba(6,19,33,.15) 45%, rgba(6,19,33,.05) 70%, rgba(6,19,33,.35) 100%)",
+          }}
+        />
+
+        {/* Actual Hybrid section content */}
+        <div className="relative z-10 topology-section-content">
+          <Reveal className="section-title-row">
+            <div>
+              <Eyebrow>Telemetry & system integration</Eyebrow>
+              <h2>From remote assets<br />to <em>actionable intelligence.</em></h2>
+            </div>
+            <div>
+              <p>We connect isolated field infrastructure to control and information platforms, creating a dependable path from field signal to operational decision.</p>
+              <Link className="button button-dark" to="/capabilities/system-integration">Explore connected systems <ArrowRight /></Link>
+            </div>
+          </Reveal>
+
+          <div className="telemetry-stage">
+            <TelemetryNetworkDiagram />
+          </div>
         </div>
       </section>
 
@@ -151,9 +214,59 @@ export default function Home() {
         <p className="platform-note">FactoryTalk DataMosaix and the referenced digital applications are Rockwell Automation technologies. Hybrid Control’s role is to help clients evaluate, integrate and apply the appropriate capability within a complete industrial solution.</p>
       </section>
 
-      <section className="industries section">
-        <Reveal className="section-title-row"><div><Eyebrow>Industry experience</Eyebrow><h2>Built for the environments<br />that <em>cannot stand still.</em></h2></div><Link className="text-link dark" to="/industries">Explore all industries <ArrowUpRight /></Link></Reveal>
-        <div className="industry-grid">{industries.map((item, index) => <Link to="/industries" className={`industry-card industry-${index + 1}`} key={item.name}><div className="industry-pattern"/><span>{item.code}</span><div><small>0{index + 1}</small><h3>{item.name}</h3><p>{item.copy}</p><ArrowUpRight /></div></Link>)}</div>
+      <section className="industries-landing relative isolate overflow-hidden">
+        <div className="industries-landing-bg" aria-hidden="true" />
+
+        <div className="relative z-10 industries-landing-content">
+          <Reveal className="industries-landing-header">
+            <div className="industries-landing-eyebrow">
+              <span className="eyebrow-line" />
+              <span>INDUSTRIES WE SERVE</span>
+              <span className="eyebrow-line" />
+            </div>
+            <h2 className="industries-landing-title">
+              Built for the environments<br />
+              that <em>cannot stand still.</em>
+            </h2>
+            <p className="industries-landing-lead">
+              Real-world expertise. Digital solutions. Measurable impact.<br />
+              From infrastructure to clean energy, we power what’s next.
+            </p>
+          </Reveal>
+
+          <div className="industries-icons-row">
+            {landingIndustries.map((item) => {
+              const IconComponent = item.Icon
+              return (
+                <Link
+                  to="/industries"
+                  className="industry-compact-card"
+                  key={item.title}
+                  aria-label={item.title}
+                >
+                  <span className="industry-card-num">{item.num}</span>
+                  <div className="industry-card-icon-wrap">
+                    <IconComponent className="industry-card-icon" size={32} />
+                  </div>
+                  <span className="industry-card-name">
+                    {item.lines.map((line, idx) => (
+                      <span key={idx} className="industry-card-line">{line}</span>
+                    ))}
+                  </span>
+                </Link>
+              )
+            })}
+          </div>
+
+          <div className="industries-landing-cta-wrap">
+            <Link to="/industries" className="industries-pill-cta">
+              <span>Explore all industries</span>
+              <ArrowRight size={15} aria-hidden="true" />
+            </Link>
+          </div>
+        </div>
+
+        <EarthHorizon />
       </section>
 
       <section className="home-evidence section" id="core-projects">
@@ -165,12 +278,32 @@ export default function Home() {
         <div className="evidence-capabilities"><span>DELIVERED CAPABILITY</span>{['Operational reporting','Water operations analytics','Radio telemetry','Process automation','Energy intelligence'].map((item, i) => <div key={item}><b>0{i + 1}</b>{item}</div>)}</div>
       </section>
 
-      <section className="process section dark-section">
-        <Reveal><Eyebrow>How we deliver</Eyebrow><h2>One connected process.<br /><em>Zero handover gaps.</em></h2></Reveal>
-        <div className="process-line">{process.map(([title, copy], i) => <Reveal className="process-step" key={title}><span>0{i + 1}</span><i /><h3>{title}</h3><p>{copy}</p></Reveal>)}</div>
+      <section className="process section dark-section relative isolate overflow-hidden">
+        <HybridTopologyBackground
+          variant="process"
+          seed={303}
+          opacity={0.82}
+          saturation={1.0}
+          brightness={1.0}
+        />
+
+        {/* Readability layer */}
+        <div
+          className="pointer-events-none absolute inset-0 z-[1]"
+          style={{
+            background:
+              "linear-gradient(90deg, rgba(7,16,26,.45) 0%, rgba(7,16,26,.15) 42%, rgba(7,16,26,.05) 70%, rgba(7,16,26,.35) 100%)",
+          }}
+        />
+
+        {/* Actual Hybrid section content */}
+        <div className="relative z-10 topology-section-content">
+          <Reveal><Eyebrow>How we deliver</Eyebrow><h2>One connected process.<br /><em>Zero handover gaps.</em></h2></Reveal>
+          <div className="process-line">{process.map(([title, copy], i) => <Reveal className="process-step" key={title}><span>0{i + 1}</span><i /><h3>{title}</h3><p>{copy}</p></Reveal>)}</div>
+        </div>
       </section>
 
-      <section className="products section">
+      <section className="products section dark-section" id="products">
         <Reveal className="section-title-row"><div><Eyebrow>Industrial technology</Eyebrow><h2>Field-ready products,<br /><em>engineered into solutions.</em></h2></div><p>Selected technology for resilient communications, monitoring and control.</p></Reveal>
         <div className="product-list">{products.map(([name, copy], i) => <Link to="/products" key={name}><span>0{i + 1}</span><div className="product-icon"><Signal /></div><h3>{name}</h3><p>{copy}</p><ArrowUpRight /></Link>)}</div>
       </section>

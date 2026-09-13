@@ -131,7 +131,6 @@ export default function Home() {
         <div className="pump-model-wrap" aria-hidden="true" />
         <div className="intro-grid">
           <Reveal className="intro-copy"><p>Hybrid Control Corporation was established in 2008 to design, integrate and manage electrical and automation systems. Today, our work connects real infrastructure to the intelligence needed to operate it better.</p><Link className="text-link dark" to="/company">Discover our company <ArrowUpRight /></Link></Reveal>
-          <Reveal className="capability-sentence"><span>Engineering</span><i /><span>Integration</span><i /><span>Manufacturing</span><i /><span>Maintenance</span><i /><span>Project Management</span></Reveal>
         </div>
       </section>
 

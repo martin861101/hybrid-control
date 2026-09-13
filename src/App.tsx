@@ -9,6 +9,7 @@ import Seo from './components/Seo'
 import { resolveSeo } from './data/seo'
 
 import ErrorBoundary from './components/ui/ErrorBoundary'
+import HybridChat from './components/chat/HybridChat'
 
 const Home = lazy(() => import('./pages/Home'))
 const InnerPage = lazy(() => import('./pages/InnerPage'))
@@ -48,6 +49,7 @@ function SiteRoutes() {
       </ErrorBoundary>
     </motion.div></AnimatePresence>
     <Footer />
+    <HybridChat />
   </>
 }
 

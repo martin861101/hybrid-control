@@ -1,0 +1,848 @@
+/* ==========================================================================
+   Hybrid Control - Assist Chat Widget Styles
+   Matches Hybrid's technical visual language and chat_panel.png
+   ========================================================================== */
+
+:root {
+  --hc-cyan: #38bdf8;
+  --hc-cyan-bright: #7debff;
+  --hc-cyan-dim: #167fc7;
+  --hc-cyan-glow: rgba(56, 189, 248, 0.25);
+  --hc-cyan-border: rgba(56, 189, 248, 0.38);
+  --hc-cyan-border-bright: rgba(125, 235, 255, 0.7);
+  --hc-panel-bg: rgba(3, 14, 28, 0.96);
+  --hc-card-bg: rgba(5, 22, 40, 0.75);
+  --hc-input-bg: rgba(3, 16, 32, 0.85);
+  --hc-user-bg: rgba(7, 26, 46, 0.8);
+  --hc-text-primary: #e2e8f0;
+  --hc-text-secondary: #94a3b8;
+  --hc-text-dim: #64748b;
+  --hc-status-green: #22c55e;
+}
+
+/* --------------------------------------------------------------------------
+   Floating Launcher (Collapsed state)
+   -------------------------------------------------------------------------- */
+.hybrid-launcher-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: auto;
+  user-select: none;
+}
+
+.hybrid-launcher-orb-btn {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.25s ease;
+  border-radius: 50%;
+}
+
+.hybrid-launcher-orb-btn:hover {
+  transform: scale(1.08);
+}
+
+.hybrid-launcher-orb-btn:focus-visible {
+  outline: 2px solid var(--hc-cyan-bright);
+  outline-offset: 4px;
+}
+
+/* Ambient aura behind launcher */
+.hybrid-launcher-aura {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.35) 0%, rgba(8, 124, 240, 0.15) 55%, transparent 75%);
+  filter: blur(8px);
+  pointer-events: none;
+  opacity: 0.8;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.hybrid-launcher-orb-btn:hover .hybrid-launcher-aura {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+.hybrid-launcher-icon-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+  filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.35));
+}
+
+/* Ensure launcher is hidden while page intro is playing */
+.logo-intro-active .hybrid-launcher-container {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+/* --------------------------------------------------------------------------
+   Full Chat Panel Container & HUD Styling
+   -------------------------------------------------------------------------- */
+.hybrid-chat-panel-outer {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 10000;
+  width: 420px;
+  height: 610px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100dvh - 32px);
+  pointer-events: auto;
+  transform-origin: bottom right;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Expanded state on desktop */
+.hybrid-chat-panel-outer.is-expanded {
+  width: 560px;
+  height: 720px;
+  max-width: calc(100vw - 48px);
+  max-height: calc(100dvh - 48px);
+}
+
+/* Outer glowing chamfer border wrapper */
+.hybrid-chat-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 1px;
+  background: linear-gradient(
+    145deg,
+    rgba(125, 235, 255, 0.8) 0%,
+    rgba(56, 189, 248, 0.4) 25%,
+    rgba(8, 124, 240, 0.25) 60%,
+    rgba(56, 189, 248, 0.5) 100%
+  );
+  clip-path: polygon(
+    18px 0,
+    calc(100% - 18px) 0,
+    100% 18px,
+    100% calc(100% - 18px),
+    calc(100% - 18px) 100%,
+    18px 100%,
+    0 calc(100% - 18px),
+    0 18px
+  );
+  box-shadow:
+    0 0 50px rgba(0, 180, 255, 0.18),
+    0 24px 65px rgba(0, 0, 0, 0.8),
+    inset 0 0 30px rgba(56, 189, 248, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Inner panel background & layout */
+.hybrid-chat-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--hc-panel-bg);
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  clip-path: polygon(
+    17px 0,
+    calc(100% - 17px) 0,
+    100% 17px,
+    100% calc(100% - 17px),
+    calc(100% - 17px) 100%,
+    17px 100%,
+    0 calc(100% - 17px),
+    0 17px
+  );
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Technical grid pattern overlay */
+.hybrid-chat-grid-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(40, 180, 255, 0.038) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(40, 180, 255, 0.038) 1px, transparent 1px);
+  background-size: 24px 24px;
+  z-index: 1;
+}
+
+/* Soft ambient cyan radial spotlight */
+.hybrid-chat-glow-spot {
+  position: absolute;
+  top: -40px;
+  left: -40px;
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.16) 0%, rgba(8, 124, 240, 0.04) 50%, transparent 75%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* HUD Decorative Corner Accents */
+.hybrid-hud-corner {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.hybrid-hud-corner.top-left {
+  top: 0;
+  left: 0;
+}
+
+.hybrid-hud-corner.top-right {
+  top: 0;
+  right: 0;
+}
+
+.hybrid-hud-corner.bottom-left {
+  bottom: 0;
+  left: 0;
+}
+
+.hybrid-hud-corner.bottom-right {
+  bottom: 0;
+  right: 0;
+}
+
+/* Decorative top notch tabs */
+.hybrid-hud-top-notches {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  pointer-events: none;
+  z-index: 20;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 45px;
+}
+
+.hybrid-hud-notch-tab {
+  width: 28px;
+  height: 2px;
+  background: var(--hc-cyan-bright);
+  box-shadow: 0 0 8px var(--hc-cyan-bright);
+  opacity: 0.8;
+}
+
+/* --------------------------------------------------------------------------
+   Chat Header
+   -------------------------------------------------------------------------- */
+.hybrid-chat-header {
+  position: relative;
+  z-index: 10;
+  height: 76px;
+  padding: 0 16px 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+  background: rgba(3, 12, 24, 0.7);
+  backdrop-filter: blur(12px);
+  flex-shrink: 0;
+}
+
+.hybrid-chat-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Orb badge in header */
+.hybrid-header-orb-wrap {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.hybrid-header-orb-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(56, 189, 248, 0.45);
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.25);
+  pointer-events: none;
+}
+
+.hybrid-header-orb-icon {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Title & System Status */
+.hybrid-header-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.hybrid-header-title {
+  font-family: 'Space Grotesk', 'DM Sans', -apple-system, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--hc-text-heading, #ffffff);
+  text-transform: uppercase;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.hybrid-header-status-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 5px;
+}
+
+.hybrid-status-dot {
+  width: 6.5px;
+  height: 6.5px;
+  border-radius: 50%;
+  background: var(--hc-status-green);
+  box-shadow: 0 0 8px var(--hc-status-green);
+  animation: hybridStatusPulse 2.2s ease-in-out infinite;
+}
+
+@keyframes hybridStatusPulse {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+.hybrid-status-text {
+  font-family: 'Space Grotesk', 'Courier New', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--hc-cyan);
+  text-transform: uppercase;
+}
+
+/* Right header controls */
+.hybrid-chat-header-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hybrid-header-tagline-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 8px;
+  font-family: 'Space Grotesk', 'Courier New', monospace;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: rgba(110, 216, 255, 0.65);
+  line-height: 1.35;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.hybrid-header-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--hc-text-secondary);
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.hybrid-header-btn:hover {
+  color: #ffffff;
+  background: rgba(56, 189, 248, 0.15);
+  border-color: rgba(56, 189, 248, 0.4);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+}
+
+.hybrid-header-btn:focus-visible {
+  outline: 2px solid var(--hc-cyan);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   Messages Scroll Area
+   -------------------------------------------------------------------------- */
+.hybrid-chat-messages {
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 20px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(56, 189, 248, 0.35) transparent;
+}
+
+.hybrid-chat-messages::-webkit-scrollbar {
+  width: 5px;
+}
+
+.hybrid-chat-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.hybrid-chat-messages::-webkit-scrollbar-thumb {
+  background: rgba(56, 189, 248, 0.3);
+  border-radius: 3px;
+}
+
+.hybrid-chat-messages::-webkit-scrollbar-thumb:hover {
+  background: var(--hc-cyan-bright);
+}
+
+/* Assistant Message Block */
+.hybrid-msg-assistant {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.hybrid-msg-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Space Grotesk', 'Courier New', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--hc-cyan);
+  font-weight: 600;
+}
+
+.hybrid-msg-indicator {
+  width: 3px;
+  height: 12px;
+  background: var(--hc-cyan);
+  border-radius: 1px;
+  box-shadow: 0 0 6px var(--hc-cyan);
+  display: inline-block;
+}
+
+.hybrid-msg-author {
+  color: var(--hc-cyan-bright);
+  font-weight: 700;
+}
+
+.hybrid-msg-time {
+  color: rgba(110, 216, 255, 0.7);
+  font-size: 10px;
+  margin-left: 2px;
+}
+
+.hybrid-assistant-body {
+  position: relative;
+  border-left: 2px solid var(--hc-cyan);
+  padding-left: 14px;
+  margin-left: 1px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hybrid-assistant-body p {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--hc-text-primary);
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.hybrid-sub-lead {
+  color: var(--hc-text-secondary);
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+/* User Message Block */
+.hybrid-msg-user {
+  position: relative;
+  align-self: flex-end;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  max-width: 84%;
+}
+
+.hybrid-user-meta {
+  font-family: 'Space Grotesk', 'Courier New', monospace;
+  font-size: 10.5px;
+  color: var(--hc-text-dim);
+  margin-bottom: 5px;
+  letter-spacing: 0.06em;
+  display: flex;
+  gap: 6px;
+}
+
+.hybrid-user-bubble {
+  background: var(--hc-user-bg);
+  border: 1px solid var(--hc-cyan-border);
+  border-radius: 6px;
+  padding: 10px 15px;
+  color: #f1f5f9;
+  font-size: 13.5px;
+  line-height: 1.5;
+  box-shadow: 
+    0 4px 18px rgba(0, 0, 0, 0.4),
+    inset 0 0 12px rgba(56, 189, 248, 0.05);
+}
+
+.hybrid-user-bubble p {
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Capability Cards (PLC & SCADA, SYSTEM INTEGRATION, MONITORING & DATA)
+   -------------------------------------------------------------------------- */
+.hybrid-capability-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 6px 0 4px 0;
+}
+
+.hybrid-capability-card {
+  background: var(--hc-card-bg);
+  border: 1px solid var(--hc-cyan-border);
+  border-radius: 6px;
+  padding: 12px 10px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.hybrid-capability-card:hover {
+  border-color: var(--hc-cyan-bright);
+  background: rgba(8, 32, 58, 0.85);
+  box-shadow: 
+    0 6px 20px rgba(0, 0, 0, 0.5),
+    0 0 16px rgba(56, 189, 248, 0.28),
+    inset 0 0 12px rgba(56, 189, 248, 0.1);
+  transform: translateY(-2px);
+}
+
+.hybrid-capability-card:focus-visible {
+  outline: 2px solid var(--hc-cyan-bright);
+  outline-offset: 2px;
+}
+
+.hybrid-card-top-icon {
+  color: var(--hc-cyan);
+  display: flex;
+  align-items: center;
+}
+
+.hybrid-card-title {
+  font-family: 'Space Grotesk', 'DM Sans', sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.hybrid-card-action {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Space Grotesk', 'Courier New', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--hc-cyan);
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.hybrid-card-arrow {
+  transition: transform 0.2s ease;
+}
+
+.hybrid-capability-card:hover .hybrid-card-arrow {
+  transform: translateX(3px);
+  color: var(--hc-cyan-bright);
+}
+
+/* Quick Action Chips */
+.hybrid-chips-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
+.hybrid-quick-chip {
+  background: rgba(6, 25, 45, 0.85);
+  border: 1px solid var(--hc-cyan-border);
+  border-radius: 4px;
+  padding: 5px 11px;
+  color: var(--hc-text-primary);
+  font-family: 'Space Grotesk', 'DM Sans', sans-serif;
+  font-size: 11.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.hybrid-quick-chip:hover {
+  background: rgba(14, 165, 233, 0.22);
+  border-color: var(--hc-cyan-bright);
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+  transform: translateY(-1px);
+}
+
+.hybrid-quick-chip:focus-visible {
+  outline: 2px solid var(--hc-cyan);
+  outline-offset: 2px;
+}
+
+.hybrid-quick-chip.is-arrow {
+  padding: 5px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --------------------------------------------------------------------------
+   Input Box & Footer Controls
+   -------------------------------------------------------------------------- */
+.hybrid-chat-footer {
+  position: relative;
+  z-index: 10;
+  padding: 12px 18px 14px 18px;
+  background: rgba(2, 10, 20, 0.7);
+  border-top: 1px solid rgba(56, 189, 248, 0.18);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.hybrid-input-shell {
+  position: relative;
+  background: var(--hc-input-bg);
+  border: 1px solid var(--hc-cyan-border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  padding: 4px 6px 4px 14px;
+  gap: 10px;
+  transition: all 0.25s ease;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.hybrid-input-shell:focus-within {
+  border-color: var(--hc-cyan-bright);
+  box-shadow: 
+    inset 0 2px 6px rgba(0, 0, 0, 0.5),
+    0 0 16px rgba(56, 189, 248, 0.25);
+}
+
+.hybrid-chat-input-field {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 13.5px;
+  line-height: 1.4;
+  caret-color: var(--hc-cyan-bright);
+}
+
+.hybrid-chat-input-field::placeholder {
+  color: rgba(148, 163, 184, 0.55);
+}
+
+.hybrid-send-button {
+  width: 38px;
+  height: 38px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, rgba(8, 124, 240, 0.35) 0%, rgba(22, 185, 255, 0.2) 100%);
+  border: 1px solid var(--hc-cyan-border);
+  color: var(--hc-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+}
+
+.hybrid-send-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(8, 124, 240, 0.6) 0%, rgba(22, 185, 255, 0.45) 100%);
+  border-color: var(--hc-cyan-bright);
+  color: #ffffff;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.4);
+  transform: scale(1.05);
+}
+
+.hybrid-send-button:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.hybrid-send-button:focus-visible {
+  outline: 2px solid var(--hc-cyan-bright);
+  outline-offset: 2px;
+}
+
+/* Brand micro-tagline at bottom */
+.hybrid-brand-tagline {
+  text-align: center;
+  font-family: 'Space Grotesk', 'Courier New', monospace;
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: rgba(110, 216, 255, 0.5);
+  text-transform: uppercase;
+  user-select: none;
+}
+
+/* --------------------------------------------------------------------------
+   Mobile & Responsive Near-Full-Screen Adaptations
+   -------------------------------------------------------------------------- */
+@media (max-width: 640px) {
+  .hybrid-launcher-container {
+    bottom: 16px;
+    right: 16px;
+  }
+
+  .hybrid-launcher-orb-btn {
+    width: 62px;
+    height: 62px;
+  }
+
+  .hybrid-chat-panel-outer {
+    position: fixed;
+    top: 12px;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    width: auto !important;
+    height: auto !important;
+    max-width: none;
+    max-height: none;
+  }
+
+  .hybrid-chat-frame,
+  .hybrid-chat-inner {
+    clip-path: polygon(
+      14px 0,
+      calc(100% - 14px) 0,
+      100% 14px,
+      100% calc(100% - 14px),
+      calc(100% - 14px) 100%,
+      14px 100%,
+      0 calc(100% - 14px),
+      0 14px
+    );
+  }
+
+  .hybrid-chat-header {
+    height: 70px;
+    padding: 0 12px;
+  }
+
+  .hybrid-header-tagline-col {
+    display: none;
+  }
+
+  .hybrid-chat-messages {
+    padding: 16px 14px;
+    gap: 18px;
+  }
+
+  .hybrid-capability-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .hybrid-capability-card {
+    flex-direction: row;
+    align-items: center;
+    padding: 12px 14px;
+  }
+
+  .hybrid-card-top-icon {
+    margin-right: 10px;
+  }
+
+  .hybrid-card-title {
+    flex: 1;
+    font-size: 11px;
+  }
+
+  .hybrid-card-action {
+    margin-top: 0;
+  }
+
+  .hybrid-chat-footer {
+    padding: 10px 14px 12px 14px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Reduced Motion Preferences
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .hybrid-launcher-orb-btn,
+  .hybrid-status-dot,
+  .hybrid-send-button,
+  .hybrid-capability-card {
+    animation: none !important;
+    transition: none !important;
+  }
+}

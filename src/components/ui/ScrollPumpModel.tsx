@@ -14,10 +14,9 @@ function createMistTexture(): THREE.CanvasTexture {
   const ctx = canvas.getContext('2d')
   if (ctx) {
     const grad = ctx.createRadialGradient(64, 64, 0, 64, 64, 64)
-    grad.addColorStop(0, 'rgba(125, 211, 252, 0.35)')
-    grad.addColorStop(0.25, 'rgba(56, 189, 248, 0.20)')
-    grad.addColorStop(0.55, 'rgba(14, 116, 144, 0.08)')
-    grad.addColorStop(0.8, 'rgba(2, 20, 40, 0.02)')
+    grad.addColorStop(0, 'rgba(125, 235, 255, 0.40)')
+    grad.addColorStop(0.28, 'rgba(56, 189, 248, 0.22)')
+    grad.addColorStop(0.65, 'rgba(14, 165, 233, 0.08)')
     grad.addColorStop(1, 'rgba(0, 0, 0, 0)')
     ctx.fillStyle = grad
     ctx.fillRect(0, 0, 128, 128)
@@ -111,20 +110,6 @@ export default function ScrollPumpModel() {
 
     const reflectionGroup = new THREE.Group()
     mirrorContainer.add(reflectionGroup)
-
-    // Reflective glossy contact circle on the floor
-    const floorGlowGeo = new THREE.RingGeometry(0, 1.2, 48)
-    const floorGlowMat = new THREE.MeshBasicMaterial({
-      color: 0x00b4d8,
-      transparent: true,
-      opacity: 0.18,
-      blending: THREE.AdditiveBlending,
-      side: THREE.DoubleSide,
-      depthWrite: false,
-    })
-    const floorGlowMesh = new THREE.Mesh(floorGlowGeo, floorGlowMat)
-    floorGlowMesh.rotation.x = -Math.PI / 2
-    scene.add(floorGlowMesh)
 
     // Animated Mist / Fog System flowing up from the floor pedestal
     const mistGroup = new THREE.Group()
@@ -243,9 +228,6 @@ export default function ScrollPumpModel() {
         // Mobile model scale: 70% of circular portal diameter (natural, comfortable floating fit)
         const targetModelDiam_px = circleDiam_px * 0.70
         currentModelDiam = (targetModelDiam_px / stageRect.height) * worldH
-
-        const floorDiscScale = (circleDiam_px * 0.85 / stageRect.height) * worldH
-        floorGlowMesh.scale.set(floorDiscScale, floorDiscScale * 0.28, 1)
       } else {
         // about.png native dimensions: 1536 x 1024 (aspect ratio: 1.5)
         const imgAspect = 1536 / 1024
@@ -284,17 +266,14 @@ export default function ScrollPumpModel() {
 
         const targetModelDiam_px = circleDiam_px * 0.76
         currentModelDiam = (targetModelDiam_px / stageRect.height) * worldH
-
-        const floorDiscScale = (circleDiam_px * 0.76 / stageRect.height) * worldH
-        floorGlowMesh.scale.set(floorDiscScale, floorDiscScale * 0.28, 1)
       }
 
       // Position and scale main model
       modelGroup.position.set(currentModelWorldX, currentModelWorldY, 0)
       modelGroup.scale.setScalar(currentModelDiam)
 
-      // Bring reflection closer to the 3D model: place reflection plane right below the model
-      const distAboveFloor = currentModelDiam * 0.43
+      // Distance between 3D model and floor reflection plane (increased to ensure clear floating separation)
+      const distAboveFloor = currentModelDiam * 0.60
       currentFloorWorldY = currentModelWorldY - distAboveFloor
 
       // Position mirror container at floor plane
@@ -307,9 +286,6 @@ export default function ScrollPumpModel() {
 
       // Clip plane at floor level
       floorClipPlane.constant = currentFloorWorldY + 0.02
-
-      // Position floor contact glow disc on the pedestal
-      floorGlowMesh.position.set(currentModelWorldX, currentFloorWorldY + 0.005, 0)
 
       // Align lights
       portalGlow.position.set(currentModelWorldX, currentModelWorldY, -0.6)
@@ -462,7 +438,7 @@ export default function ScrollPumpModel() {
       if (!reduceMotion) {
         idleRot += delta * 0.18
 
-        // Animated mist/fog flowing up from floor pedestal (yellow marker area)
+        // Animated mist/fog flowing up from floor pedestal
         const time = clock.getElapsedTime()
         mistParticles.forEach((p) => {
           p.y += p.speedY * delta
@@ -478,13 +454,10 @@ export default function ScrollPumpModel() {
           const curScale = p.scaleBase * (1.0 + progress * 1.2)
           p.sprite.scale.set(curScale, curScale * 0.75, 1)
 
-          // Smooth bell-curve alpha: emerges from floor pedestal, peaks at yellow marker line, gently disperses
-          let alpha = 0
-          if (progress < 0.28) {
-            alpha = (progress / 0.28) * p.maxOpacity
-          } else {
-            alpha = Math.max(0, 1.0 - (progress - 0.28) / 0.72) * p.maxOpacity
-          }
+          // Smooth bell-curve alpha: emerges from floor pedestal, peaks, gently disperses
+          const alpha = progress < 0.28
+            ? (progress / 0.28) * p.maxOpacity
+            : Math.max(0, 1.0 - (progress - 0.28) / 0.72) * p.maxOpacity
           p.material.opacity = alpha
         })
       }

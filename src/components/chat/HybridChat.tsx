@@ -10,6 +10,7 @@ import {
   Send,
   X,
   Maximize2,
+  Download,
   Minimize2,
 } from 'lucide-react'
 import './HybridChat.css'
@@ -463,10 +464,17 @@ export default function HybridChat() {
                                   return <BarChart3 size={20} />
                                 }
 
+                                const isFile = card.route.endsWith('.pdf')
+                                const isExternal = isFile || card.route.startsWith('http')
+                                const CardWrapper = isExternal ? 'a' as any : Link
+                                const wrapperProps = isExternal 
+                                  ? { href: card.route, target: isFile ? '_blank' : undefined, rel: 'noopener noreferrer' } 
+                                  : { to: card.route }
+
                                 return (
-                                  <Link
+                                  <CardWrapper
                                     key={card.id}
-                                    to={card.route}
+                                    {...wrapperProps}
                                     className="hybrid-capability-card"
                                     aria-label={`${card.title.replace('\n', ' ')} - Learn More`}
                                   >
@@ -480,9 +488,9 @@ export default function HybridChat() {
                                     </div>
                                     <div className="hybrid-card-action">
                                       {card.linkText}
-                                      <ArrowRight size={11} className="hybrid-card-arrow" />
+                                      {isFile ? <Download size={11} className="hybrid-card-arrow" /> : <ArrowRight size={11} className="hybrid-card-arrow" />}
                                     </div>
-                                  </Link>
+                                  </CardWrapper>
                                 )
                               })}
                             </div>

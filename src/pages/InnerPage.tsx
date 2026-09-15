@@ -69,15 +69,15 @@ const capabilityImages: Record<string, { src: string; alt: string }> = {
 }
 
 const industryImages: Record<string, { src: string; alt: string }> = {
-  'Water & Wastewater': { src: '/img/img-006.png', alt: 'Water treatment clarifier basin' },
-  'Power Generation': { src: '/img/img-050.png', alt: 'Electrical switchgear line in a power control room' },
-  'Renewable Energy': { src: '/img/img-007.png', alt: 'Solar thermal panels' },
-  'Energy': { src: '/img/img-045.png', alt: 'Industrial electrical drive equipment' },
-  Chemical: { src: '/img/img-005.png', alt: 'Industrial chemical processing plant' },
-  'Oil & Gas': { src: '/img/img-005.png', alt: 'Industrial process infrastructure and pipework' },
-  Mining: { src: '/img/img-028.png', alt: 'Large mining haul truck in operation' },
-  Manufacturing: { src: '/img/img-004.png', alt: 'Automated manufacturing production line' },
-  'FMCG & Packaging': { src: '/img/img-051.png', alt: 'Bottling production line with industrial flow measurement equipment' },
+  'Water & Wastewater': { src: '/industries/water.png', alt: 'Water and wastewater treatment infrastructure' },
+  'Power Generation': { src: '/industries/power.png', alt: 'Power generation infrastructure' },
+  'Renewable Energy': { src: '/industries/renewable_energy.png', alt: 'Renewable energy infrastructure' },
+  Energy: { src: '/industries/energy.png', alt: 'Industrial energy infrastructure' },
+  Chemical: { src: '/industries/chemical.png', alt: 'Chemical processing infrastructure' },
+  'Oil & Gas': { src: '/industries/oil_gass.png', alt: 'Oil and gas processing infrastructure' },
+  Mining: { src: '/industries/mining.png', alt: 'Mining infrastructure and operations' },
+  Manufacturing: { src: '/industries/manufacturing.png', alt: 'Industrial manufacturing operations' },
+  'FMCG & Packaging': { src: '/industries/fmcg_packaging.png', alt: 'FMCG and packaging production operations' },
 }
 
 const projectDiagramImages: Record<string, { src: string; alt: string; aspect: string }> = {

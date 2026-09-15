@@ -3,6 +3,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import fs from 'node:fs'
 import path from 'node:path'
+import { chatApiPlugin } from './src/server/chatApi.js'
 
 function seoPrerenderPlugin(): any {
   return {
@@ -145,7 +146,7 @@ function seoPrerenderPlugin(): any {
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), seoPrerenderPlugin()],
+  plugins: [react(), seoPrerenderPlugin(), chatApiPlugin()],
   server: {
     allowedHosts: ['hc.hygridtech.co.za'],
   },

@@ -150,9 +150,9 @@ export default function ScrollPumpModel() {
 
     let disposed = false
     let loadedScene: THREE.Object3D | undefined
-    let reflectionScene: THREE.Object3D | undefined
+    const reflectionScenes: THREE.Object3D[] = []
     let animationMixer: THREE.AnimationMixer | undefined
-    let reflectionMixer: THREE.AnimationMixer | undefined
+    const reflectionMixers: THREE.AnimationMixer[] = []
     let scrollTimeline: gsap.core.Timeline | undefined
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -276,12 +276,14 @@ export default function ScrollPumpModel() {
       const distAboveFloor = currentModelDiam * 0.60
       currentFloorWorldY = currentModelWorldY - distAboveFloor
 
-      // Position mirror container at floor plane
-      mirrorContainer.position.set(0, currentFloorWorldY, 0)
-      mirrorContainer.scale.set(1, -1, 1)
+      // Position mirror container slightly below floor plane centered horizontally with the model
+      // Shallow reflection transform: stretched horizontally across polished floor and vertically compressed
+      const reflectionDrop = currentModelDiam * 0.04
+      mirrorContainer.position.set(currentModelWorldX, currentFloorWorldY - reflectionDrop, 0)
+      mirrorContainer.scale.set(1.5, -0.28, 1.2)
 
       // Position reflection relative to mirrorContainer (local Y points downward)
-      reflectionGroup.position.set(currentModelWorldX, distAboveFloor, 0)
+      reflectionGroup.position.set(0, distAboveFloor, 0)
       reflectionGroup.scale.setScalar(currentModelDiam)
 
       // Clip plane at floor level
@@ -333,27 +335,58 @@ export default function ScrollPumpModel() {
           }
         })
 
-        // 2. Setup reflection model (subtle, glossy floor sheen)
-        reflectionScene = clone(gltf.scene)
-        reflectionScene.scale.setScalar(unitScale)
-        reflectionScene.position.copy(center).multiplyScalar(-unitScale)
-        reflectionGroup.add(reflectionScene)
+        // 2. Setup reflection model with multi-sample smudge / blur layers
+        // Displacing subtle ghost layers horizontally softens silhouette edges into an authentic glossy floor smudge
+        const SMUDGE_LAYERS = [
+          { dx: 0, dz: 0, dy: 0, sx: 1.0, sz: 1.0, opacity: 0.08, roughness: 0.82 },
+          { dx: -0.015, dz: -0.007, dy: -0.001, sx: 1.018, sz: 1.012, opacity: 0.045, roughness: 0.88 },
+          { dx: 0.015, dz: 0.007, dy: -0.001, sx: 1.018, sz: 1.012, opacity: 0.045, roughness: 0.88 },
+          { dx: -0.030, dz: 0.012, dy: -0.003, sx: 1.035, sz: 1.022, opacity: 0.022, roughness: 0.94 },
+          { dx: 0.030, dz: -0.012, dy: -0.003, sx: 1.035, sz: 1.022, opacity: 0.022, roughness: 0.94 },
+        ]
 
-        reflectionScene.traverse((child) => {
-          if (child instanceof THREE.Mesh && child.material) {
-            child.material = child.material.clone()
-            child.material.transparent = true
-            child.material.opacity = 0.24
-            child.material.side = THREE.DoubleSide
-            child.material.clippingPlanes = [floorClipPlane]
-            child.material.clipShadows = true
-            if (child.material instanceof THREE.MeshStandardMaterial) {
-              child.material.metalness = 0.75
-              child.material.roughness = 0.42
-              if (child.material.color) {
-                child.material.color.lerp(new THREE.Color(0x0284c7), 0.55)
+        SMUDGE_LAYERS.forEach((layer) => {
+          const layerGroup = new THREE.Group()
+          layerGroup.position.set(layer.dx, layer.dy, layer.dz)
+          layerGroup.scale.set(layer.sx, 1.0, layer.sz)
+          reflectionGroup.add(layerGroup)
+
+          const sceneClone = clone(gltf.scene)
+          sceneClone.scale.setScalar(unitScale)
+          sceneClone.position.copy(center).multiplyScalar(-unitScale)
+          layerGroup.add(sceneClone)
+          reflectionScenes.push(sceneClone)
+
+          sceneClone.traverse((child) => {
+            if (child instanceof THREE.Mesh && child.material) {
+              child.material = child.material.clone()
+              child.material.transparent = true
+              child.material.opacity = layer.opacity
+              child.material.side = THREE.DoubleSide
+              child.material.clippingPlanes = [floorClipPlane]
+              child.material.clipShadows = true
+              if (child.material instanceof THREE.MeshStandardMaterial) {
+                child.material.metalness = 0.70
+                child.material.roughness = layer.roughness
+                if (child.material.color) {
+                  child.material.color.lerp(new THREE.Color(0x0284c7), 0.55)
+                }
               }
             }
+          })
+
+          if (gltf.animations.length) {
+            const mixer = new THREE.AnimationMixer(sceneClone)
+            reflectionMixers.push(mixer)
+
+            gltf.animations.forEach((clip) => {
+              const a = mixer.clipAction(clip)
+              a.setLoop(THREE.LoopOnce, 1)
+              a.clampWhenFinished = true
+              a.play()
+              a.paused = true
+              reflActions.push(a)
+            })
           }
         })
 
@@ -362,30 +395,22 @@ export default function ScrollPumpModel() {
         modelGroup.rotation.set(baseRotX, -0.55, -0.1)
         reflectionGroup.rotation.copy(modelGroup.rotation)
 
-        // Animation mixer for internal gear motion
+        // Animation mixer for internal gear motion of main model
         if (gltf.animations.length) {
           animationMixer = new THREE.AnimationMixer(loadedScene)
-          reflectionMixer = new THREE.AnimationMixer(reflectionScene)
 
           gltf.animations.forEach((clip) => {
             const a1 = animationMixer?.clipAction(clip)
-            const a2 = reflectionMixer?.clipAction(clip)
-            if (a1 && a2) {
+            if (a1) {
               a1.setLoop(THREE.LoopOnce, 1)
               a1.clampWhenFinished = true
               a1.play()
               a1.paused = true
               mainActions.push(a1)
-
-              a2.setLoop(THREE.LoopOnce, 1)
-              a2.clampWhenFinished = true
-              a2.play()
-              a2.paused = true
-              reflActions.push(a2)
             }
           })
           animationMixer.update(0)
-          reflectionMixer.update(0)
+          reflectionMixers.forEach((m) => m.update(0))
         }
 
         stage.classList.add('is-loaded')
@@ -418,7 +443,7 @@ export default function ScrollPumpModel() {
                 action.time = action.getClip().duration * animationState.progress
               })
               animationMixer?.update(0)
-              reflectionMixer?.update(0)
+              reflectionMixers.forEach((m) => m.update(0))
             },
           }, 0)
         }
@@ -468,9 +493,9 @@ export default function ScrollPumpModel() {
       reflectionGroup.rotation.y = currentRotY
 
       // Idle gear movements when not actively scrolling
-      if (!reduceMotion && animationMixer && reflectionMixer && mainActions.length) {
+      if (!reduceMotion && animationMixer && reflectionMixers.length && mainActions.length) {
         animationMixer.update(delta * 0.25)
-        reflectionMixer.update(delta * 0.25)
+        reflectionMixers.forEach((m) => m.update(delta * 0.25))
       }
 
       renderer.render(scene, camera)
@@ -486,7 +511,9 @@ export default function ScrollPumpModel() {
       scrollTimeline?.kill()
       renderer.setAnimationLoop(null)
       if (loadedScene) animationMixer?.uncacheRoot(loadedScene)
-      if (reflectionScene) reflectionMixer?.uncacheRoot(reflectionScene)
+      reflectionScenes.forEach((s, idx) => {
+        reflectionMixers[idx]?.uncacheRoot(s)
+      })
       mistTexture.dispose()
       mistParticles.forEach((p) => {
         p.material.dispose()

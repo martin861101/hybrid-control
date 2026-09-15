@@ -36,49 +36,9 @@ const INITIAL_MESSAGES: ChatMessage[] = [
   {
     id: 'msg-1',
     type: 'assistant',
-    time: '18:42:07',
+    time: new Date().toLocaleTimeString('en-US', { hour12: false }),
     author: 'HC-AI',
     text: "Hello! I'm the Hybrid Control Assistant. How can I help with your control, automation or integration requirements today?",
-  },
-  {
-    id: 'msg-2',
-    type: 'user',
-    time: '18:42:15',
-    author: 'You',
-    text: 'Tell me about PLC systems and how you integrate them.',
-  },
-  {
-    id: 'msg-3',
-    type: 'assistant',
-    time: '18:42:31',
-    author: 'HC-AI',
-    text: 'Hybrid Control designs, supplies and integrates PLC systems for industrial, commercial and critical infrastructure environments.',
-    subtext: 'Our PLC solutions include:',
-    cards: [
-      {
-        id: 'card-1',
-        title: 'PLC & SCADA\nSOLUTIONS',
-        icon: 'cpu',
-        linkText: 'LEARN MORE',
-        route: '/capabilities/engineering',
-      },
-      {
-        id: 'card-2',
-        title: 'SYSTEM\nINTEGRATION',
-        icon: 'integration',
-        linkText: 'LEARN MORE',
-        route: '/capabilities/system-integration',
-      },
-      {
-        id: 'card-3',
-        title: 'MONITORING\n& DATA',
-        icon: 'data',
-        linkText: 'LEARN MORE',
-        route: '/capabilities/system-integration#digital-intelligence',
-      },
-    ],
-    followUp: 'Would you like more details on a specific manufacturer or application?',
-    chips: ['Siemens', 'Allen-Bradley', 'Schneider'],
   },
 ]
 
@@ -129,6 +89,7 @@ export default function HybridChat() {
   const [messages, setMessages] = useState<ChatMessage[]>(INITIAL_MESSAGES)
   const [inputValue, setInputValue] = useState('')
   const [isOpeningPulse, setIsOpeningPulse] = useState(false)
+  const [isTyping, setIsTyping] = useState(false)
 
   // Only show the chat icon after the page intro is over
   const [introDone, setIntroDone] = useState(() => {
@@ -243,10 +204,10 @@ export default function HybridChat() {
     inputRef.current?.focus()
   }
 
-  const handleSend = (e?: React.FormEvent) => {
+  const handleSend = async (e?: React.FormEvent) => {
     if (e) e.preventDefault()
     const trimmed = inputValue.trim()
-    if (!trimmed) return
+    if (!trimmed || isTyping) return
 
     const now = new Date()
     const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`
@@ -259,22 +220,49 @@ export default function HybridChat() {
       text: trimmed,
     }
 
-    setMessages((prev) => [...prev, userMsg])
+    const newMessages = [...messages, userMsg];
+    setMessages(newMessages)
     setInputValue('')
+    setIsTyping(true)
 
-    // Static demo response to acknowledge message without calling external API
-    window.setTimeout(() => {
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: newMessages,
+          currentRoute: location.pathname,
+          pageTitle: document.title,
+        })
+      });
+      const data = await res.json();
+      
       const respTime = new Date()
       const respTimeStr = `${String(respTime.getHours()).padStart(2, '0')}:${String(respTime.getMinutes()).padStart(2, '0')}:${String(respTime.getSeconds()).padStart(2, '0')}`
+      
       const botMsg: ChatMessage = {
         id: `assistant-${Date.now()}`,
         type: 'assistant',
         time: respTimeStr,
         author: 'HC-AI',
-        text: `Inquiry recorded regarding "${trimmed}". AI telemetry backend is offline in preview mode. For engineering specifications or project consultation, reach our team at info@hybridcontrol.co.za or call +27 35 789 1699.`,
+        text: data.text || "Sorry, I encountered an error.",
+        cards: data.cards,
       }
       setMessages((prev) => [...prev, botMsg])
-    }, 450)
+    } catch (err) {
+      console.error(err);
+      const errTime = new Date()
+      const botMsg: ChatMessage = {
+        id: `assistant-${Date.now()}`,
+        type: 'assistant',
+        time: `${String(errTime.getHours()).padStart(2, '0')}:${String(errTime.getMinutes()).padStart(2, '0')}:${String(errTime.getSeconds()).padStart(2, '0')}`,
+        author: 'HC-AI',
+        text: "I'm having trouble connecting to my backend right now. Please try again later.",
+      }
+      setMessages((prev) => [...prev, botMsg])
+    } finally {
+      setIsTyping(false)
+    }
   }
 
   return (

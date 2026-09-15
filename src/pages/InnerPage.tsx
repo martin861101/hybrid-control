@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowUpRight, BrainCircuit, Database, Network, TrendingUp, ShieldCheck, Building2, Users, Award } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, BrainCircuit, Database, Network, TrendingUp, ShieldCheck, Building2, Users, Award, Download } from 'lucide-react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import Reveal from '../components/ui/Reveal'
 import { capabilities, digitalSolutions, industries, products, projects, partners } from '../data/site'
@@ -251,7 +251,7 @@ function CompanyPage({ page }: { page: { eyebrow: string; title: string; intro: 
           <Award aria-hidden="true"/><h3>Accreditations &amp; affiliations</h3>
           <p>SACPCMP, SAIMC and Saiosh affiliations reflect professional standards supporting engineering quality and safety. Marks below link to the respective organisations; ISO standards are shown as typographic badges without reproducing restricted logos.</p>
           <div className="company-accreditations">
-            <a href="https://sacpcmp.org.za/" target="_blank" rel="noreferrer" aria-label="Visit SACPCMP website"><img src="/accreditations/sacpcmp-transparent.png" alt="SACPCMP" loading="lazy" /></a>
+            <a href="https://sacpcmp.org.za/" target="_blank" rel="noreferrer" aria-label="Visit SACPCMP website"><img src="/accreditations/sacpcmp-transparent.png?v=2" alt="SACPCMP" loading="lazy" /></a>
             <a href="https://www.saiosh.co.za/" target="_blank" rel="noreferrer" aria-label="Visit Saiosh website"><img src="/accreditations/saiosh-transparent.png" alt="Saiosh — South African Institute of Occupational Safety and Health" loading="lazy" /></a>
             <a href="https://saimc.co.za/" target="_blank" rel="noreferrer" aria-label="Visit SAIMC website"><img src="/accreditations/saimc-transparent.png" alt="SAIMC — Inspiring Automation" loading="lazy" /></a>
           </div>
@@ -262,7 +262,12 @@ function CompanyPage({ page }: { page: { eyebrow: string; title: string; intro: 
       <p className="platform-note">Capabilities are presented in clear engineering terms, with detailed project scope available in our Experience portfolio.</p>
     </section>
 
-    <section className="inner-cta"><h2>Discuss a requirement with an engineer.</h2><Link className="button button-light" to="/contact">Contact Hybrid Control <ArrowRight /></Link></section>
+    <section className="inner-cta"><h2>Discuss a requirement with an engineer.</h2>
+      <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', alignItems: 'center' }}>
+        <Link className="button button-light" to="/contact">Contact Hybrid Control <ArrowRight /></Link>
+        <a className="button button-dark" href="/pdf/hybrid-control.pdf" download>Download Company Profile <Download size={15}/></a>
+      </div>
+    </section>
   </main>
 }
 

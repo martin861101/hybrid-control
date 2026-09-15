@@ -71,7 +71,7 @@ const certificationStandards = [
 const certificationCommitments = ['Quality and customer satisfaction', 'Occupational health and safety', 'Environmental responsibility', 'Compliance with applicable requirements', 'Risk-based management', 'Continual improvement']
 
 const accreditationAffiliations = [
-  { name: 'SACPCMP', href: 'https://sacpcmp.org.za/', image: '/accreditations/sacpcmp-transparent.png', alt: 'SACPCMP' },
+  { name: 'SACPCMP', href: 'https://sacpcmp.org.za/', image: '/accreditations/sacpcmp-transparent.png?v=2', alt: 'SACPCMP' },
   { name: 'Saiosh', href: 'https://www.saiosh.co.za/', image: '/accreditations/saiosh-transparent.png', alt: 'Saiosh — South African Institute of Occupational Safety and Health' },
   { name: 'SAIMC', href: 'https://saimc.co.za/', image: '/accreditations/saimc-transparent.png', alt: 'SAIMC — Inspiring Automation' },
 ]

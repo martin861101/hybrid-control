@@ -35,7 +35,12 @@ If you want to suggest a navigation card, use this format at the end of your res
 \`\`\`json
 { "cards": [ { "id": "c1", "title": "...", "icon": "cpu", "linkText": "LEARN MORE", "route": "/capabilities" } ] }
 \`\`\`
+If the user asks for the company profile or documentation, provide a download card:
+\`\`\`json
+{ "cards": [ { "id": "pdf1", "title": "Hybrid Control\nCompany Profile", "icon": "data", "linkText": "DOWNLOAD PDF", "route": "/pdf/hybrid-control.pdf" } ] }
+\`\`\`
 Do not interrogate the visitor. Be conversational, professional, and concise. Do not invent facts about Hybrid.
+IMPORTANT: Do not use any Markdown formatting in your conversational text (e.g. no **bold**, no *italics*). Output plain text only for your conversational response. However, you MUST STILL wrap your JSON action blocks at the very end in standard \`\`\`json ... \`\`\` tags so the system can parse them.
 `;
 
 export function chatApiPlugin(): Plugin {
@@ -91,20 +96,34 @@ async function handleChatRequest(req: any, res: any, next: any) {
       let actionData = null;
       let cardsData = null;
       
-      const jsonRegex = /```json\n([\s\S]*?)\n```/;
+      let parsedJsonStr = null;
+      const jsonRegex = /```json\n?([\s\S]*?)\n?```/;
       const match = text.match(jsonRegex);
+      
+      let replaceTarget = '';
       if (match) {
+        parsedJsonStr = match[1];
+        replaceTarget = match[0];
+      } else {
+        const fallbackRegex = /(\{[\s\n]*"(?:cards|action)"[\s\S]*\})$/;
+        const fallbackMatch = text.match(fallbackRegex);
+        if (fallbackMatch) {
+          parsedJsonStr = fallbackMatch[1];
+          replaceTarget = fallbackMatch[0];
+        }
+      }
+
+      if (parsedJsonStr) {
         try {
-          const parsed = JSON.parse(match[1]);
+          const parsed = JSON.parse(parsedJsonStr);
           if (parsed.action === 'submit_lead') {
             actionData = parsed.lead;
             console.log('--- NEW LEAD CAPTURED ---', parsed.lead);
-            // In a real app, save to DB here
           }
           if (parsed.cards) {
             cardsData = parsed.cards;
           }
-          finalText = text.replace(jsonRegex, '').trim();
+          finalText = text.replace(replaceTarget, '').trim();
         } catch (e) {
           // ignore parsing error
         }

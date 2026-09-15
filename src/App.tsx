@@ -54,3 +54,4 @@ function SiteRoutes() {
 }
 
 export default function App() { return <BrowserRouter><SiteRoutes /></BrowserRouter> }
+console.log('Forcing update 2');

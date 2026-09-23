@@ -241,3 +241,36 @@ export const process = [
   ['Deploy', 'Commission the solution in the operational environment.'],
   ['Support', 'Maintain and optimise the system.'],
 ]
+
+export const completedProjects = [
+  {
+    title: "Design and implementation of the water loss management system",
+    location: "City of Umhlathuze, Richards Bay, KwaZulu Natal, South Africa",
+    description: "The project involved the installation of PRV's and flow meters to regulate pressure within the water distribution system. The project provided a solution to monitor and reduce water leakages by decreasing burst frequency, bringing intelligence and effective pressure management to the water distribution network."
+  },
+  {
+    title: "Design and implementation of the energy management system",
+    location: "Royal Swazi Sugar Corporation, Swaziland",
+    description: "The project involved the design and integration of the remote pump station monitoring system using power monitors and web-enabled Energy Metrix management software package. The system provides access to crucial energy information from virtually any location. The client needed to capture, analyze, store, and share energy data with key stakeholders using a standard web browser. The purpose was to reduce and optimize energy consumption, manage power quality, correlate energy usage and manage the production cost."
+  },
+  {
+    title: "Implementation of the water and wastewater network monitoring and control system",
+    location: "ERWAT, Kempton Park, Gauteng, South Africa",
+    description: "The client wanted to address the issue of obsolescence and the inability to remotely monitor and control their pump stations. Hybrid Control Corporation was appointed to run the project from the design phase, implementation, maintenance, and operations support. A combination of ADROIT SCADA system and the ELPRO RTU's was used to collect and visualize data while allowing remote control of the assets."
+  },
+  {
+    title: "Design and implementation of telemetry and SCADA systems",
+    location: "Joe Gqabi District Municipality, Eastern Cape, South Africa",
+    description: "The client wanted to remotely monitor and control their assets within the water distribution network. Hybrid Control Corporation was appointed to run the project from the design phase, implementation, maintenance, and operations support. The project was completed within time and budget and according to the client's quality and technical standards."
+  },
+  {
+    title: "Telemetry and SCADA systems upgrade for the eThekwini wastewater network",
+    location: "Ethekwini Water and Sanitation, Durban, KwaZulu Natal, South Africa",
+    description: "The client wanted to upgrade and install the telemetry system on 146 wastewater pump stations. The client's requirements included that the system must utilize the DPN3 protocol and ensure direct interoperability between the outstations and the SCADA system. We implemented the ELPRO 415 RTU combined with the ClearSCADA from Schneider Electric."
+  },
+  {
+    title: "Natural gas conversion to liquid petroleum products",
+    location: "Escravos region, Nigeria",
+    description: "This project was based in the Escravos region, Nigeria. Escravos region is located in the Niger Delta about 100 kilometres (62 mi) southeast of Lagos. The project involved building a plant that converts natural gas into liquid petroleum products. It was a joint venture project between Sasol and Chevron with both companies providing the project with their leading technologies ( Sasol’s proprietary Fischer-Tropsch technology and Chevron’s Isocracking technology)."
+  }
+];

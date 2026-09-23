@@ -1,9 +1,13 @@
 import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js'
 
-const gearModelUrl = new URL('../../gearanimated.glb', import.meta.url).href
+const loader = new GLTFLoader()
+loader.setMeshoptDecoder(MeshoptDecoder)
+
+const modelUrl = import.meta.env.BASE_URL + '3d/hc.glb'
 
 const gearModelPromise = new Promise<GLTF>((resolve, reject) => {
-  new GLTFLoader().load(gearModelUrl, resolve, undefined, reject)
+  loader.load(modelUrl, resolve, undefined, reject)
 })
 
 export function preloadGearModel() {

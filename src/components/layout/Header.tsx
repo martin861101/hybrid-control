@@ -88,7 +88,7 @@ export default function Header() {
             </div>
           ) : <NavLink key={label} to={href}>{label}</NavLink>)}
         </nav>
-        <Link to="/contact" className="nav-cta">Contact us <ArrowUpRight size={16} aria-hidden="true" /></Link>
+        <button onClick={() => window.dispatchEvent(new Event('open-hybrid-chat'))} className="nav-cta">Contact us <ArrowUpRight size={16} aria-hidden="true" /></button>
         <button className="menu-toggle" onClick={() => setOpen(true)} aria-label="Open menu" aria-expanded={open} aria-controls="mobile-nav"><Menu aria-hidden="true" /></button>
       </div>
 

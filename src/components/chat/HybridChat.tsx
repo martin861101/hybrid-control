@@ -154,6 +154,14 @@ export default function HybridChat() {
 
   // Manage keyboard accessibility (Escape to close, auto-focus)
   useEffect(() => {
+    function handleOpenEvent() {
+      setIsOpen(true);
+    }
+    window.addEventListener('open-hybrid-chat', handleOpenEvent);
+    return () => window.removeEventListener('open-hybrid-chat', handleOpenEvent);
+  }, []);
+
+  useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === 'Escape' && isOpen) {
         setIsOpen(false)

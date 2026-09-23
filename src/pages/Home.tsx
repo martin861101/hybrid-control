@@ -8,12 +8,12 @@ import panelIntegration from '../assets/legacy/panel-integration.jpeg'
 import Reveal from '../components/ui/Reveal'
 import TelemetryNetworkDiagram from '../components/ui/TelemetryNetworkDiagram'
 import ScrollPumpModel from '../components/ui/ScrollPumpModel'
-import ProjectVisual from '../components/projects/ProjectVisual'
 import { HybridControlSphere } from '../components/ui/HybridControlSphere'
 import HybridTopologyBackground from '../components/ui/TopologyField'
 import EarthHorizon from '../components/ui/globe'
 import '../styles/industries-landing.css'
-import { capabilities, digitalSolutions, partners, process, products, projects } from '../data/site'
+import { capabilities, digitalSolutions, partners, process, products } from '../data/site'
+import BlurText from '../components/BlurText'
 
 function EnergyPylonIcon({ className = '', size = 32 }: { className?: string; size?: number }) {
   return (
@@ -108,7 +108,7 @@ export default function Home() {
         </div>
         <div className="hero-content">
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .15 }}><Eyebrow>Industrial automation & engineering</Eyebrow></motion.div>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .25, duration: .75 }}>Engineering<br /><em>intelligence</em> into<br />critical infrastructure.</motion.h1>
+          <h1><BlurText text="Engineering" /><br /><em><BlurText text="intelligence" delay={300} /></em> <BlurText text="into" delay={450} /><br /><BlurText text="critical infrastructure." delay={600} /></h1>
           <motion.div className="hero-bottom" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: .65 }}>
             <p>We engineer connected industrial systems—from electrical control and telemetry to operational data, analytics and decision intelligence.</p>
             <div className="hero-actions"><Link className="button button-primary" to="/capabilities">Explore our capabilities <ArrowRight /></Link><Link className="text-link" to="/experience">View projects <ArrowUpRight /></Link></div>
@@ -127,19 +127,19 @@ export default function Home() {
 
       <section className="intro section" id="intro">
         <ScrollPumpModel />
-        <Reveal className="section-head"><Eyebrow>Who we are</Eyebrow><h2>Technology is only valuable<br />when it solves the <em>right problem.</em></h2></Reveal>
+        <Reveal className="section-head"><Eyebrow>Who we are</Eyebrow><h2><BlurText text="Technology is only valuable" /><br />when it solves the <em><BlurText text="right problem." delay={400} /></em></h2></Reveal>
         <div className="pump-model-wrap" aria-hidden="true" />
         <div className="intro-grid">
-          <Reveal className="intro-copy"><p>Hybrid Control Corporation was established in 2008 to design, integrate and manage electrical and automation systems. Today, our work connects real infrastructure to the intelligence needed to operate it better.</p><Link className="text-link dark" to="/company">Discover our company <ArrowUpRight /></Link></Reveal>
+          <Reveal className="intro-copy"><p className="lead-paragraph">Hybrid Control Corporation was established in 2008 to design, integrate and manage electrical and automation systems. Today, our work connects real infrastructure to the intelligence needed to operate it better.</p><Link className="text-link dark" to="/company">Discover our company <ArrowUpRight /></Link></Reveal>
         </div>
       </section>
 
       <section className="business section dark-section">
-        <Reveal className="section-title-row"><div><Eyebrow>Five units. One system.</Eyebrow><h2>Integrated capability,<br /><em>from concept to operation.</em></h2></div><p>Specialist disciplines brought together around one accountable project team.</p></Reveal>
+        <Reveal className="section-title-row"><div><Eyebrow>Five units. One system.</Eyebrow><h2><BlurText text="Integrated capability," /><br /><em><BlurText text="from concept to operation." delay={300} /></em></h2></div><p>Specialist disciplines brought together around one accountable project team.</p></Reveal>
         <div className="business-list">
           {capabilities.map((unit) => (
             <Link className="business-row" to={`/capabilities/${unit.slug}`} key={unit.id}>
-              <span className="unit-index">{unit.id}</span><h3>{unit.title}</h3><p>{unit.short}</p>
+              <span className="unit-index">{unit.id}</span><h3><BlurText text={unit.title} /></h3><p>{unit.short}</p>
               <ul>{unit.points.map((point) => <li key={point}><Check />{point}</li>)}</ul><span className="round-arrow"><ArrowUpRight /></span>
             </Link>
           ))}
@@ -150,7 +150,7 @@ export default function Home() {
             <Reveal className={`field-image-card field-image-${index + 1}`} key={item.title}>
               <img src={item.image} alt={item.alt} loading="lazy" />
               <div className="field-image-overlay" aria-hidden="true" />
-              <div className="field-image-copy"><span>0{index + 1} / {item.label}</span><h3>{item.title}</h3><p>{item.copy}</p></div>
+              <div className="field-image-copy"><span>0{index + 1} / {item.label}</span><h3><BlurText text={item.title} /></h3><p>{item.copy}</p></div>
             </Reveal>
           ))}
         </div>
@@ -179,7 +179,7 @@ export default function Home() {
           <Reveal className="section-title-row">
             <div>
               <Eyebrow>Telemetry & system integration</Eyebrow>
-              <h2>From remote assets<br />to <em>actionable intelligence.</em></h2>
+              <h2><BlurText text="From remote assets" /><br />to <em><BlurText text="actionable intelligence." delay={300} /></em></h2>
             </div>
             <div>
               <p>We connect isolated field infrastructure to control and information platforms, creating a dependable path from field signal to operational decision.</p>
@@ -195,7 +195,7 @@ export default function Home() {
 
       <section className="digital-intelligence section dark-section" id="digital-intelligence">
         <Reveal className="digital-heading">
-          <div><Eyebrow>Digital intelligence · Rockwell Automation ecosystem</Eyebrow><h2>Control the process.<br /><em>Understand the business.</em></h2></div>
+          <div><Eyebrow>Digital intelligence · Rockwell Automation ecosystem</Eyebrow><h2><BlurText text="Control the process." /><br /><em><BlurText text="Understand the business." delay={300} /></em></h2></div>
           <div className="digital-intro"><p>Hybrid Control’s system integration offering extends beyond hardware and SCADA. Through Rockwell Automation’s digital technology ecosystem—including FactoryTalk DataMosaix—we can connect OT and enterprise data, contextualize it, and turn it into applications that support operations, maintenance, energy and production decisions.</p><Link className="text-link" to="/capabilities/system-integration#digital-intelligence">Explore industrial data solutions <ArrowUpRight /></Link></div>
         </Reveal>
 
@@ -209,7 +209,7 @@ export default function Home() {
           <div className="data-layer outcome-layer"><span>04 / Business outcomes</span><strong>Act · Optimize · Sustain</strong><CloudCog /></div>
         </Reveal>
 
-        <div className="digital-solutions">{digitalSolutions.map((solution, i) => <Reveal className="digital-card" key={solution.title}><span>0{i + 1}</span><h3>{solution.title}</h3><p>{solution.copy}</p><small>{solution.outcome}</small></Reveal>)}</div>
+        <div className="digital-solutions">{digitalSolutions.map((solution, i) => <Reveal className="digital-card" key={solution.title}><span>0{i + 1}</span><h3><BlurText text={solution.title} /></h3><p>{solution.copy}</p><small>{solution.outcome}</small></Reveal>)}</div>
         <p className="platform-note">FactoryTalk DataMosaix and the referenced digital applications are Rockwell Automation technologies. Hybrid Control’s role is to help clients evaluate, integrate and apply the appropriate capability within a complete industrial solution.</p>
       </section>
 
@@ -223,10 +223,7 @@ export default function Home() {
               <span>INDUSTRIES WE SERVE</span>
               <span className="eyebrow-line" />
             </div>
-            <h2 className="industries-landing-title">
-              Built for the environments<br />
-              that <em>cannot stand still.</em>
-            </h2>
+            <h2 className="industries-landing-title"><BlurText text="Built for the environments" /><br />that <em><BlurText text="cannot stand still." delay={400} /></em></h2>
             <p className="industries-landing-lead">
               Real-world expertise. Digital solutions. Measurable impact.<br />
               From infrastructure to clean energy, we power what’s next.
@@ -269,12 +266,7 @@ export default function Home() {
       </section>
 
       <section className="home-evidence section" id="core-projects">
-        <Reveal className="evidence-heading"><div><Eyebrow>Core project experience</Eyebrow><h2>This is what integrated<br/><em>engineering looks like.</em></h2></div><div><p>From a single field signal to a 146-site telemetry programme, Hybrid Control’s project record shows how engineering, control, communications and operational intelligence work as one system.</p><Link className="button button-dark" to="/experience">Explore all core projects <ArrowRight/></Link></div></Reveal>
-        <div className="evidence-stage">
-          <Link to={`/experience#${projects[1].slug}`} className="evidence-feature"><ProjectVisual project={projects[1]} index={1}/><div className="evidence-feature-copy"><span>Flagship scale / P02</span><h3>{projects[1].title}</h3><strong>{projects[1].client}</strong><p>{projects[1].copy}</p><div>{projects[1].delivery.map(item => <i key={item}>{item}</i>)}</div><ArrowUpRight/></div></Link>
-          <div className="evidence-side">{[projects[0], projects[2], projects[5]].map((project, i) => <Link to={`/experience#${project.slug}`} key={project.slug}><ProjectVisual project={project} index={i} compact/><div><span>{project.id} / {project.type}</span><h3>{project.title}</h3><p>{project.client}</p></div><ArrowUpRight/></Link>)}</div>
-        </div>
-        <div className="evidence-capabilities"><span>DELIVERED CAPABILITY</span>{['Operational reporting','Water operations analytics','Radio telemetry','Process automation','Energy intelligence'].map((item, i) => <div key={item}><b>0{i + 1}</b>{item}</div>)}</div>
+        <Reveal className="evidence-heading"><div><Eyebrow>Core project experience</Eyebrow><h2><BlurText text="This is what integrated" /><br/><em><BlurText text="engineering looks like." delay={300} /></em></h2></div><div><p>From a single field signal to a 146-site telemetry programme, Hybrid Control’s project record shows how engineering, control, communications and operational intelligence work as one system.</p><Link className="button button-dark" to="/experience">Explore all core projects <ArrowRight/></Link></div></Reveal>
       </section>
 
       <section className="process section dark-section relative isolate overflow-hidden">
@@ -297,34 +289,34 @@ export default function Home() {
 
         {/* Actual Hybrid section content */}
         <div className="relative z-10 topology-section-content">
-          <Reveal><Eyebrow>How we deliver</Eyebrow><h2>One connected process.<br /><em>Zero handover gaps.</em></h2></Reveal>
-          <div className="process-line">{process.map(([title, copy], i) => <Reveal className="process-step" key={title}><span>0{i + 1}</span><i /><h3>{title}</h3><p>{copy}</p></Reveal>)}</div>
+          <Reveal><Eyebrow>How we deliver</Eyebrow><h2><BlurText text="One connected process." /><br /><em><BlurText text="Zero handover gaps." delay={400} /></em></h2></Reveal>
+          <div className="process-line">{process.map(([title, copy], i) => <Reveal className="process-step" key={title}><span>0{i + 1}</span><i /><h3><BlurText text={title} /></h3><p>{copy}</p></Reveal>)}</div>
         </div>
       </section>
 
       <section className="products section dark-section" id="products">
-        <Reveal className="section-title-row"><div><Eyebrow>Industrial technology</Eyebrow><h2>Field-ready products,<br /><em>engineered into solutions.</em></h2></div><p>Selected technology for resilient communications, monitoring and control.</p></Reveal>
-        <div className="product-list">{products.map(([name, copy], i) => <Link to="/products" key={name}><span>0{i + 1}</span><div className="product-icon"><Signal /></div><h3>{name}</h3><p>{copy}</p><ArrowUpRight /></Link>)}</div>
+        <Reveal className="section-title-row"><div><Eyebrow>Industrial technology</Eyebrow><h2><BlurText text="Field-ready products," /><br /><em><BlurText text="engineered into solutions." delay={300} /></em></h2></div><p>Selected technology for resilient communications, monitoring and control.</p></Reveal>
+        <div className="product-list">{products.map(([name, copy], i) => <Link to="/products" key={name}><span>0{i + 1}</span><div className="product-icon"><Signal /></div><h3><BlurText text={name} /></h3><p>{copy}</p><ArrowUpRight /></Link>)}</div>
       </section>
 
       <section className="partners section">
-        <Reveal><Eyebrow>Technology ecosystem</Eyebrow><h2>Partnerships built around<br /><em>proven industrial platforms.</em></h2></Reveal>
+        <Reveal><Eyebrow>Technology ecosystem</Eyebrow><h2><BlurText text="Partnerships built around" /><br /><em><BlurText text="proven industrial platforms." delay={400} /></em></h2></Reveal>
         <div className="partner-grid">{partners.map(partner => <div key={partner}>{partner}</div>)}</div>
-        <div className="impact"><div className="impact-graphic"><HybridControlSphere /></div><Reveal><Eyebrow>Social responsibility</Eyebrow><h3>Engineering progress<br />beyond infrastructure.</h3><p>We work with clients to support youth development, graduate training and emerging businesses in the communities where we operate.</p><Link className="text-link dark" to="/company">Our company story <ArrowUpRight /></Link></Reveal></div>
+        <div className="impact"><div className="impact-graphic"><HybridControlSphere /></div><Reveal><Eyebrow>Social responsibility</Eyebrow><h3><BlurText text="Engineering progress" /><br /><BlurText text="beyond infrastructure." delay={300} /></h3><p>We work with clients to support youth development, graduate training and emerging businesses in the communities where we operate.</p><Link className="text-link dark" to="/company">Our company story <ArrowUpRight /></Link></Reveal></div>
       </section>
 
       <section className="certifications section" aria-labelledby="certifications-title">
         <Reveal className="certifications-heading">
-          <div><Eyebrow>Certified management systems</Eyebrow><h2 id="certifications-title">Our certifications &<br /><em>commitment to excellence.</em></h2></div>
+          <div><Eyebrow>Certified management systems</Eyebrow><h2 id="certifications-title"><BlurText text="Our certifications &" /><br /><em><BlurText text="commitment to excellence." delay={300} /></em></h2></div>
           <div className="certifications-intro"><p>At Hybrid Control, we are committed to delivering excellence through internationally recognised management systems and the highest standards of quality, occupational health and safety, and environmental responsibility.</p><p>Our ISO certifications demonstrate our commitment to continual improvement, operational excellence and responsible business practices.</p></div>
         </Reveal>
 
         <div className="iso-certification-grid">
-          {certificationStandards.map(({ standard, title, copy, Icon }, index) => <Reveal className="iso-certification-card" key={standard}><div><span>0{index + 1}</span><Icon aria-hidden="true" /></div><strong>{standard}</strong><h3>{title}</h3><p>{copy}</p></Reveal>)}
+          {certificationStandards.map(({ standard, title, copy, Icon }, index) => <Reveal className="iso-certification-card" key={standard}><div><span>0{index + 1}</span><Icon aria-hidden="true" /></div><strong>{standard}</strong><h3><BlurText text={title} /></h3><p>{copy}</p></Reveal>)}
         </div>
 
         <div className="certification-commitment">
-          <Reveal><Eyebrow>Our commitment</Eyebrow><h3>Standards reflected in<br />the way we work.</h3><p>Our certification to ISO 9001, ISO 45001 and ISO 14001 reflects our commitment to:</p></Reveal>
+          <Reveal><Eyebrow>Our commitment</Eyebrow><h3><BlurText text="Standards reflected in" /><br /><BlurText text="the way we work." delay={300} /></h3><p>Our certification to ISO 9001, ISO 45001 and ISO 14001 reflects our commitment to:</p></Reveal>
           <ul>{certificationCommitments.map(item => <li key={item}><Check aria-hidden="true" />{item}</li>)}</ul>
         </div>
 
@@ -345,7 +337,7 @@ export default function Home() {
 
       <section className="contact-cta">
         <div className="cta-grid" aria-hidden="true" />
-        <Reveal><Eyebrow>Start a conversation</Eyebrow><h2>Have an engineering challenge?<br /><em>Let’s solve it.</em></h2><p>Talk to our engineering team about your automation, telemetry or electrical infrastructure requirements.</p><Link className="button button-light" to="/contact">Contact our team <ArrowUpRight /></Link></Reveal>
+        <Reveal><Eyebrow>Start a conversation</Eyebrow><h2><BlurText text="Have an engineering challenge?" /><br /><em><BlurText text="Let’s solve it." delay={400} /></em></h2><p>Talk to our engineering team about your automation, telemetry or electrical infrastructure requirements.</p><button className="button button-light" onClick={() => window.dispatchEvent(new Event('open-hybrid-chat'))}>Contact our team <ArrowUpRight /></button></Reveal>
       </section>
     </main>
   )

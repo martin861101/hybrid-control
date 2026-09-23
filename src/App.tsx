@@ -10,6 +10,7 @@ import { resolveSeo } from './data/seo'
 
 import ErrorBoundary from './components/ui/ErrorBoundary'
 import HybridChat from './components/chat/HybridChat'
+import InfoModal from './components/ui/InfoModal'
 
 const Home = lazy(() => import('./pages/Home'))
 const InnerPage = lazy(() => import('./pages/InnerPage'))
@@ -50,6 +51,7 @@ function SiteRoutes() {
     </motion.div></AnimatePresence>
     <Footer />
     <HybridChat />
+    <InfoModal />
   </>
 }
 

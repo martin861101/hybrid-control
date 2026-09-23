@@ -1,0 +1,43 @@
+--- src/pages/ProjectsPage.tsx
++++ src/pages/ProjectsPage.tsx
+@@ -74,13 +74,6 @@
+       </article>)}
+     </section>
+ 
+-    <section className="capability-map-section section">
+-      <Reveal className="eim-section-heading">
+-        <div><div className="eim-act"><span>ACT III</span><i/>ENGINEERING CAPABILITY</div><h2>Beyond<br/><em>automation.</em></h2></div>
+-        <div><p>Engineering across process, energy, digital systems and infrastructure—connected by one integration philosophy.</p><span>SELECT A DOMAIN / TRACE THE SYSTEM</span></div>
+-      </Reveal>
+-      <CapabilityTopology/>
+-    </section>
+-
+     <section className="delivered-section section" id="delivered-engineering">
+       <Reveal className="eim-section-heading delivered-heading">
+         <div><div className="eim-act"><span>03.2</span><i/>ENGINEERING WORKSTREAMS</div><h2>Not just capability.<br/><em>Delivered engineering.</em></h2></div>
+-        <div><p>A technical ledger of work spanning software, measurement, energy, process and remote communications.</p><span>SCROLL / SYSTEM VISUAL UPDATES</span></div>
++        <div><p>A technical ledger of work spanning software, measurement, energy, process and remote communications.</p></div>
+       </Reveal>
+-      <DeliveredEngineering/>
++      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', padding: '0 max(5vw, calc((100vw - 1200px) / 2)) 80px', marginTop: '20px' }}>
++        {deliveredEngineering.map((item, index) => (
++          <Reveal key={item.id} style={{ display: 'inline-flex' }}>
++            <span style={{ 
++              display: 'inline-flex',
++              alignItems: 'center',
++              gap: '8px',
++              padding: '8px 16px', 
++              background: 'var(--card-surface)', 
++              border: '1px solid var(--border)', 
++              borderRadius: '30px', 
++              fontSize: '0.85rem',
++              color: 'var(--text-body)',
++              fontWeight: 500
++            }}>
++              <span style={{ color: 'var(--cyan)' }}>{item.id}</span>
++              {item.title}
++            </span>
++          </Reveal>
++        ))}
++      </div>
+     </section>

@@ -1,0 +1,14 @@
+Business Units from combined.md:
+1. Engineering Unit: Hybrid Control Corporation seeks to address complex and interdependence systems... We meet the modern demand of increased interdependence head on by focusing on understanding the customer’s requirements... With the increased demand to secure the telemetry networks and avoid reliance on proprietary OPC’s software, we have started implementing the DNP3 protocol and ensuring direct interoperability between outstations and the SCADA systems.
+2. System Integration Unit: After the engineering or design phase and prior to the operate and maintain phase, the system integration phase, covering implementation, is crucial... Depending on the project... Hybrid Control Corporation engineers carries out technical studies...
+3. Maintenance Unit: Hybrid Control Corporation offers maintenance services that range from all-inclusive to tailored contracts... The maintenance unit focuses on ensuring that your production demands do not end up exceeding what your assets can produce...
+4. Manufacturing Unit: The installation process is fast-tracked through the capability to build telemetry and other electrical panels in-house. The cost of project execution to the customer is also reduced... ISO9001 and ISO14001 certified.
+5. Project Management Unit: All our projects are headed by a project manager who serves as the main interface with the client... Clients working with us enjoy the benefits of having access to a pool of experienced resources who understands the full project cycle...
+
+Why choose us:
+- Social Responsibility
+- Certified System Integrator
+- Over 10 Certified Engineers
+- Over 10 Years Experience
+- Multiple Industries
+- Complete Solutions Provider

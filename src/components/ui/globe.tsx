@@ -27,6 +27,15 @@ export default function EarthHorizon({ className = '' }: EarthHorizonProps) {
     const size = 1200
     const dpr = Math.min(window.devicePixelRatio || 1, 2)
 
+    const PIN_LOCATIONS: [number, number][] = [
+      [-26.2041, 28.0473], // South Africa (Gauteng)
+      [-33.9249, 18.4241], // Cape Town
+      [-28.7807, 32.0383], // Richards Bay (Head Office)
+      [25.2048, 55.2708],  // Middle East / Dubai
+      [51.5072, -0.1276],  // Europe / London
+      [1.3521, 103.8198],  // Asia / Singapore
+    ]
+
     try {
       const config: COBEOptions = {
         width: size * dpr,
@@ -39,16 +48,9 @@ export default function EarthHorizon({ className = '' }: EarthHorizonProps) {
         mapSamples: 24000,
         mapBrightness: 3.8,
         baseColor: [0.015, 0.07, 0.12],
-        markerColor: [0.0, 0.65, 1.0],
+        markerColor: [0.22, 0.74, 0.97], // bright cyan
         glowColor: [0.0, 0.35, 0.65],
-        markers: [
-          { location: [-26.2041, 28.0473], size: 0.07 }, // South Africa (Gauteng)
-          { location: [-33.9249, 18.4241], size: 0.05 }, // Cape Town
-          { location: [-28.7807, 32.0383], size: 0.06 }, // Richards Bay (Head Office)
-          { location: [25.2048, 55.2708], size: 0.05 },  // Middle East / Dubai
-          { location: [51.5072, -0.1276], size: 0.04 },  // Europe / London
-          { location: [1.3521, 103.8198], size: 0.04 },  // Asia / Singapore
-        ],
+        markers: PIN_LOCATIONS.map(loc => ({ location: loc, size: 0.035 })),
       }
 
       globe = createGlobe(canvas, config)
@@ -58,10 +60,35 @@ export default function EarthHorizon({ className = '' }: EarthHorizonProps) {
       return
     }
 
+    const startTime = Date.now()
+
     const animate = () => {
       if (!reduceMotion && isVisible && globe) {
         phi += 0.0008 // Extremely slow and elegant continuous rotation
-        globe.update({ phi })
+        
+        const t = Date.now() - startTime
+        const PULSE_DURATION = 1500
+        const GAP_DURATION = 500
+        const CYCLE_DURATION = PULSE_DURATION + GAP_DURATION
+        const TOTAL_CYCLE = CYCLE_DURATION * PIN_LOCATIONS.length
+        
+        const currentActiveIndex = Math.floor((t % TOTAL_CYCLE) / CYCLE_DURATION)
+        const localTime = (t % TOTAL_CYCLE) % CYCLE_DURATION
+        
+        const markers = PIN_LOCATIONS.map((loc, i) => {
+          let markerSize = 0.035 // visible tiny pin base size
+          if (i === currentActiveIndex && localTime < PULSE_DURATION) {
+            // Sine wave for smooth swelling
+            const pulseFactor = Math.sin((localTime / PULSE_DURATION) * Math.PI)
+            markerSize = 0.035 + (0.045 * pulseFactor) // swells up to 0.08 for the glow
+          }
+          return { 
+            location: loc, 
+            size: markerSize,
+          }
+        })
+
+        globe.update({ phi, markers })
       }
       animId = requestAnimationFrame(animate)
     }

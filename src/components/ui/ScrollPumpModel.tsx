@@ -280,7 +280,7 @@ export default function ScrollPumpModel() {
       // Shallow reflection transform: stretched horizontally across polished floor and vertically compressed
       const reflectionDrop = currentModelDiam * 0.04
       mirrorContainer.position.set(currentModelWorldX, currentFloorWorldY - reflectionDrop, 0)
-      mirrorContainer.scale.set(1.5, -0.28, 1.2)
+      mirrorContainer.scale.set(1.4, -0.25, 1.1)
 
       // Position reflection relative to mirrorContainer (local Y points downward)
       reflectionGroup.position.set(0, distAboveFloor, 0)
@@ -390,10 +390,9 @@ export default function ScrollPumpModel() {
           }
         })
 
-        // Base tilt: angles the gears toward camera so circular face fits circle
-        const baseRotX = THREE.MathUtils.degToRad(-70)
-        modelGroup.rotation.set(baseRotX, -0.55, -0.1)
-        reflectionGroup.rotation.copy(modelGroup.rotation)
+        // Upright orientation for logo display
+        modelGroup.rotation.set(0, 0, 0)
+        reflectionGroup.rotation.set(0, 0, 0)
 
         // Animation mixer for internal gear motion of main model
         if (gltf.animations.length) {
@@ -435,15 +434,7 @@ export default function ScrollPumpModel() {
             progress: 1,
             ease: 'none',
             onUpdate: () => {
-              scrollRotRef.current = animationState.progress * Math.PI * 2.35
-              mainActions.forEach((action) => {
-                action.time = action.getClip().duration * animationState.progress
-              })
-              reflActions.forEach((action) => {
-                action.time = action.getClip().duration * animationState.progress
-              })
-              animationMixer?.update(0)
-              reflectionMixers.forEach((m) => m.update(0))
+              scrollRotRef.current = animationState.progress * Math.PI * 3.5
             },
           }, 0)
         }
@@ -456,12 +447,12 @@ export default function ScrollPumpModel() {
     const scrollRotRef = { current: 0 }
     let idleRot = 0
 
-    // Continuous 60fps render loop with gentle idle rotation, synchronized reflection, and animated rising mist
+    // Continuous 60fps render loop with continuous spinning in circles, scroll rotation, synchronized reflection, and animated rising mist
     const animate = () => {
       const delta = Math.min(clock.getDelta(), 0.1)
 
       if (!reduceMotion) {
-        idleRot += delta * 0.18
+        idleRot += delta * 0.35 // continuous spin speed for logo
 
         // Animated mist/fog flowing up from floor pedestal
         const time = clock.getElapsedTime()
@@ -487,8 +478,8 @@ export default function ScrollPumpModel() {
         })
       }
 
-      // Synchronize rotation between main moving model and floor reflection
-      const currentRotY = -0.55 + idleRot + scrollRotRef.current
+      // Synchronize rotation between main moving model and floor reflection (spinning in circles upright + scroll rotation)
+      const currentRotY = idleRot + scrollRotRef.current
       modelGroup.rotation.y = currentRotY
       reflectionGroup.rotation.y = currentRotY
 

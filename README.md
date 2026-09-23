@@ -12,6 +12,8 @@ The fixed navigation uses a dark rough-glass surface rather than a transparent o
 
 ## Run locally
 
+For the separate static website and Render API setup, see [SPLIT_DEPLOY.md](SPLIT_DEPLOY.md).
+
 ```bash
 npm install
 npm run dev

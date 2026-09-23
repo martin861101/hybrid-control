@@ -234,8 +234,10 @@ export default function HybridChat() {
     setInputValue('')
     setIsTyping(true)
 
+    let errorText = "I'm having trouble connecting to the assistant right now. Please try again later."
     try {
-      const res = await fetch('/api/chat', {
+      const apiBase = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '')
+      const res = await fetch(`${apiBase}/api/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -244,6 +246,11 @@ export default function HybridChat() {
           pageTitle: document.title,
         })
       });
+      if (!res.ok) {
+        if (res.status === 429) errorText = 'Please wait before sending another message.'
+        if (res.status === 503) errorText = 'Your enquiry could not be saved. Please try again or contact us directly.'
+        throw new Error(`Chat API returned ${res.status}`)
+      }
       const data = await res.json();
       
       const respTime = new Date()
@@ -266,7 +273,7 @@ export default function HybridChat() {
         type: 'assistant',
         time: `${String(errTime.getHours()).padStart(2, '0')}:${String(errTime.getMinutes()).padStart(2, '0')}:${String(errTime.getSeconds()).padStart(2, '0')}`,
         author: 'HC-AI',
-        text: "I'm having trouble connecting to my backend right now. Please try again later.",
+        text: errorText,
       }
       setMessages((prev) => [...prev, botMsg])
     } finally {

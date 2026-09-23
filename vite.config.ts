@@ -3,7 +3,6 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import fs from 'node:fs'
 import path from 'node:path'
-import { chatApiPlugin } from './src/server/chatApi.js'
 
 function seoPrerenderPlugin(): any {
   return {
@@ -146,9 +145,10 @@ function seoPrerenderPlugin(): any {
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), seoPrerenderPlugin(), chatApiPlugin()],
+  plugins: [react(), seoPrerenderPlugin()],
   server: {
     allowedHosts: ['hc.hygridtech.co.za'],
+    proxy: { '/api/chat': { target: 'http://localhost:3001', changeOrigin: true } },
   },
   build: {
     chunkSizeWarningLimit: 850,

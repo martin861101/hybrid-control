@@ -1,16 +1,16 @@
-# Static website and Render API
+# Static website and Render Free API
 
 ## Build and run
 
-The root Vite app is the static website. `npm ci && npm run build` produces `dist/`, including prerendered route HTML. Upload **the contents of `dist/`** to the existing webserver's document root. Configure the webserver to serve existing files and directories first, then fall back to `/index.html` for React routes. Keep the generated `/company/index.html`, `/capabilities/.../index.html`, `/experience/.../index.html`, and `.html` variants; do not replace them with a single SPA file. `VITE_API_BASE_URL` is a public build-time setting. Build the production upload with `VITE_API_BASE_URL=https://api.hybridcontrol.co.za npm run build`.
+The root Vite app is the static website. `npm ci && npm run build` produces `dist/`, including prerendered route HTML. Upload **the contents of `dist/`** to the existing webserver's document root. Configure the webserver to serve existing files and directories first, then fall back to `/index.html` for React routes. Keep the generated `/company/index.html`, `/capabilities/.../index.html`, `/experience/.../index.html`, and `.html` variants. `VITE_API_BASE_URL` is a public build-time setting. Build the production upload with `VITE_API_BASE_URL=https://api.hybridcontrol.co.za npm run build`.
 
-The backend uses the repo root to share `src/data/site.ts` as the single source of business data. Build only it with `npm ci && npm run build:backend`, then run `npm run start:backend`. It binds to `0.0.0.0:$PORT` and exposes `GET /health`. For local development, copy `backend/.env.example` to `backend/.env.local`, set real local secrets, add `http://localhost:5173` to `ALLOWED_ORIGINS`, and point `LEADS_FILE` to a local writable path. Start it with `node --env-file=backend/.env.local backend/dist/backend/main.js`, then run `npm run dev`. Vite proxies `/api/chat` to localhost:3001 in development only.
+The backend uses the repo root to share `src/data/site.ts` as the single source of business data. Build it with `npm ci && npm run build:backend`, then run `npm run start:backend`. It binds to `0.0.0.0:$PORT` and exposes `GET /health`. For local development, copy `backend/.env.example` to `backend/.env.local`, set local secrets, and add `http://localhost:5173` to `ALLOWED_ORIGINS`. Start it with `node --env-file=backend/.env.local backend/dist/backend/main.js`, then run `npm run dev`. Vite proxies `/api/chat` to localhost:3001 in development only.
 
-## Render Web Service
+## Render Free Web Service
 
-The optional `render.yaml` Blueprint provisions a paid Starter Node Web Service and 1 GB persistent disk. In the Dashboard, connect this repository, leave **Root Directory blank**, use build command `npm ci && npm run build:backend`, start command `npm run start:backend`, health check `/health`, and attach a disk at `/var/data` if you are not using the Blueprint. Render supplies `PORT`. A paid always-on plan is recommended for production enquiries. The persistent disk holds `leads.jsonl` across restarts and deploys; keep the service at one instance because the file is local to that instance. Plan backup and retention for the disk and restrict shell access to staff who handle enquiries.
+[render.yaml](render.yaml) configures one Free Node Web Service without a disk. In the Render Dashboard, connect this repository, leave **Root Directory blank**, choose the **Free** plan, set build command `npm ci && npm run build:backend`, start command `npm run start:backend`, and health check `/health`. Render supplies `PORT`. Free services spin down after inactivity, so the next chat request can have a cold start. The browser allows up to 90 seconds for the API response. No local file or database is used for lead storage; an enquiry is acknowledged only when Resend accepts the email request.
 
-Environment variables in Render:
+Render environment variables:
 
 | Name | Purpose |
 | --- | --- |
@@ -18,18 +18,17 @@ Environment variables in Render:
 | `RESEND_API_KEY` | Secret Resend API key; Render only. |
 | `AI_MODEL` | Server model name; defaults to `gemini-3.1-flash-lite`. |
 | `RESEND_FROM` | Verified sender, e.g. `leads@notify.hybridcontrol.co.za`. |
-| `ALLOWED_ORIGINS` | Exact comma-separated browser origins, initially `https://hybridcontrol.co.za,https://www.hybridcontrol.co.za`. Add staging only if it is used. No trailing slashes. |
-| `LEADS_FILE` | `/var/data/leads.jsonl`, inside the mounted persistent disk. |
+| `ALLOWED_ORIGINS` | Exact comma-separated browser origins, initially `https://hybridcontrol.co.za,https://www.hybridcontrol.co.za`. Add staging only if used. No trailing slashes. |
 
 Use uppercase names with underscores. Only the frontend's `VITE_API_BASE_URL` has a `VITE_` prefix. Never add `GEMINI_API_KEY` or `RESEND_API_KEY` to the frontend host's public build environment.
 
-After Render creates its `onrender.com` URL, test `/health` there. Add `api.hybridcontrol.co.za` as a custom domain in Render, then follow the DNS record and HTTPS verification shown by Render. Build/upload the frontend with that API URL after HTTPS works. Verify the exact UI origin shown by the browser and include it in `ALLOWED_ORIGINS`. Avoid editing the mailbox or its MX records. For Resend, verify the **sender subdomain** (`notify.hybridcontrol.co.za`) using the DNS records provided by Resend; configure `RESEND_FROM` only after verification. The notification destination is `web@hybridcontrol.co.za`.
+After Render creates its `onrender.com` URL, test `/health` there. Add `api.hybridcontrol.co.za` as a custom domain in Render, then follow the DNS record and HTTPS verification shown by Render. Build/upload the frontend with that API URL after HTTPS works. Verify the exact UI origin shown by the browser and include it in `ALLOWED_ORIGINS`. Keep the mailbox and its MX records unchanged. Verify the sender subdomain (`notify.hybridcontrol.co.za`) using the DNS records provided by Resend; then set `RESEND_FROM`. The notification destination is `web@hybridcontrol.co.za`.
 
 ## API and lead behavior
 
-`POST /api/chat` accepts JSON `{ "messages": [{ "type": "user", "text": "..." }], "currentRoute": "/contact" }`. It returns `{ "text": "...", "cards": [], "leadCaptured": false }` for ordinary replies. A submitted lead returns `leadCaptured: true` only after the enquiry is written and synced to the persistent file. It also returns `notificationStatus: "sent" | "failed"`; a failed email notification is shown in the chat and logged without contact details. Failed persistence returns HTTP 503 and never acknowledges receipt. The server limits body size, history length, route/card values, request rate, and provider call time. It accepts only exact origins for browser requests. CORS is a browser boundary, not authentication.
+`POST /api/chat` accepts JSON `{ "messages": [{ "type": "user", "text": "..." }], "currentRoute": "/contact" }`. It returns `{ "text": "...", "cards": [], "leadCaptured": false }` for ordinary replies. When the visitor explicitly agrees to submit and has supplied a name, validated email and/or phone, and requirements, the API sends a plain-text notification with company (if supplied), a conversation summary, and the originating route. Only a successful Resend response with an email ID returns `leadCaptured: true`. A failed Resend call returns HTTP 502 with `code: "lead_delivery_failed"`; the chat tells the visitor to retry. No enquiry is stored by this service. Resend's `Idempotency-Key` is derived from the validated enquiry and route to reduce duplicate emails on retries; Resend's idempotency window is limited, and a materially changed enquiry is a new submission.
 
-The `leads.jsonl` file contains personal enquiry data. Treat it as private, back it up, and set an appropriate retention period. Resend's API acceptance is not proof of final inbox delivery; monitor provider delivery events and the backend's notification failure logs after launch.
+The server limits body size, history length, route/card values, request rate, and provider call time. It accepts only exact origins for browser requests. CORS is a browser boundary, not authentication. Resend API acceptance is not proof of final inbox delivery; monitor Resend delivery events after launch.
 
 ## Verification
 

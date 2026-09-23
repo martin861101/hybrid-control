@@ -240,6 +240,7 @@ export default function HybridChat() {
       const res = await fetch(`${apiBase}/api/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        signal: AbortSignal.timeout(90_000),
         body: JSON.stringify({
           messages: newMessages,
           currentRoute: location.pathname,
@@ -247,8 +248,9 @@ export default function HybridChat() {
         })
       });
       if (!res.ok) {
+        const failure = await res.json().catch(() => null)
         if (res.status === 429) errorText = 'Please wait before sending another message.'
-        if (res.status === 503) errorText = 'Your enquiry could not be saved. Please try again or contact us directly.'
+        if (failure?.code === 'lead_delivery_failed') errorText = 'Your enquiry could not be sent. Please try again.'
         throw new Error(`Chat API returned ${res.status}`)
       }
       const data = await res.json();

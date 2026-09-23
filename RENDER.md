@@ -1,9 +1,17 @@
-# Hybrid Control migration — Render agent prompt
+Update Hybrid Control to run on Render's Free Web Service.
 
-Use the `frontend-backend-separation` skill and its `references/hybrid-control.md` reference on this local repository.
+Inspect the existing backend, render.yaml, environment configuration and tests first.
 
-Separate Hybrid Control into a static React/Vite frontend for my existing webserver and a standalone Node.js API for **Render**. Inspect the current code and uncommitted work first. Preserve the existing website, animations, SEO-generated route pages, routes and chat UI.
+Remove the persistent file-based lead storage, LEADS_FILE dependency and Render persistent disk configuration. Do not introduce Supabase or another database.
 
-Move the existing Vite `/api/chat` middleware into the standalone backend; make the frontend API base URL configurable (`VITE_API_BASE_URL=https://api.hybridcontrol.co.za`). Keep Gemini keys on the backend. Correct lead capture so it stores the enquiry durably and sends an email notification to `web@hybridcontrol.co.za`, not merely logs it. Prefer an HTTPS email API such as Resend using a verified subdomain sender, without changing existing mailbox/MX records. Set Reply-To to the visitor's validated email if available. Acknowledge receipt only after a confirmed durable save or successful delivery; distinguish notification failures. Implement server-side validation, allowed navigation routes, rate limiting, exact allowed-origin CORS and safe error handling. Keep business knowledge maintainable.
+Keep the existing standalone Node API, Gemini integration, static React frontend and Resend HTTPS email integration.
 
-Implement independent build/start scripts, Render deployment configuration/docs (Web Service, `0.0.0.0:$PORT`, `/health`, root/build/start commands, paid always-on recommendation), environment examples, webserver upload instructions, and meaningful tests. Verify the built static frontend against the independently running backend and fix failures. Do not deploy, modify DNS, modify the live email account, or commit secrets. Report changed files, verification, Render settings, environment variables and manual steps.
+When a visitor has supplied sufficient contact details and agreed to submit an enquiry, send an email directly through Resend to web@hybridcontrol.co.za. Include their name, company if available, validated email and/or phone, enquiry requirements, conversation summary and originating page. Use RESEND_FROM for the verified sender and the visitor's email as Reply-To when valid.
+
+Only return leadCaptured: true after Resend accepts the request successfully. If email submission fails, return a controlled error and allow the visitor to retry. Do not falsely acknowledge submission or unnecessarily send duplicates.
+
+Preserve input validation, safe HTML/email formatting, CORS restrictions, payload limits and reasonable abuse protection for the public chat API. Keep Gemini and Resend keys server-side.
+
+Update render.yaml to use a Free Web Service without a disk. Remove obsolete storage configuration from environment examples and deployment documentation. Preserve the existing backend build/start commands and health endpoint.
+
+Run the backend tests, frontend build and backend build. Fix any regressions and report all changes and required Render settings. Do not deploy, change DNS or modify the live website.
